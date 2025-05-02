@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head') %>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+        <div class="form-container">
+            <h1>Login</h1>
+            
+            <% if (locals.error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <form action="/auth/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <div class="form-links">
+                    <a href="/security/reset/request">Forgot password?</a>
+                </div>
+                
+                <button type="submit">Login</button>
+            </form>
+
+            <div class="social-login">
+                <p>Or sign in with:</p>
+                <a href="/auth/google" class="google-btn">
+                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo">
+                    Sign in with Google
+                </a>
+            </div>
+            
+            <p class="form-footer">
+                Don't have an account? <a href="/auth/register">Register</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
