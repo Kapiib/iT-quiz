@@ -10,6 +10,7 @@ const getRoutes = require('./routes/getRoutes');
 const { checkAuth } = require('./middleware/checkAuth');
 const passwordResetRoutes = require('./routes/passwordResetRoutes');
 const googleAuthRoutes = require('./routes/googleAuthRoutes');
+const quizRoutes = require('./routes/quizRoutes'); // Add this line
 
 // Load environment variables
 dotenv.config();
@@ -39,6 +40,15 @@ app.use('/', getRoutes);
 app.use('/auth', authRoutes);
 app.use('/auth', googleAuthRoutes);
 app.use('/security/reset', passwordResetRoutes); // Changed from '/password-reset'
+
+// Keep only POST routes in quizRoutes.js
+app.use('/quiz', require('./routes/quizRoutes')); 
+
+// Update the main route
+const quizController = require('./controllers/quizController');
+
+// Replace the existing home route with this:
+app.get('/', quizController.getHomepageQuizzes);
 
 // Start server
 app.listen(PORT, () => {

@@ -43,4 +43,24 @@ const isModerator = (req, res, next) => {
     });
 };
 
-module.exports = { checkAuth, isAdmin, isModerator };
+// Redirect authenticated users away from auth pages
+const redirectIfAuthenticated = (req, res, next) => {
+    const token = req.cookies.jwt;
+
+    if (token) {
+        const decodedToken = verifyToken(token);
+        if (decodedToken) {
+            // User is authenticated, redirect to appropriate page
+            return res.redirect('/profile');
+        }
+    }
+    // User is not authenticated, continue to the login/register page
+    next();
+};
+
+module.exports = { 
+    checkAuth, 
+    isAdmin, 
+    isModerator,
+    redirectIfAuthenticated
+};

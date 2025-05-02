@@ -1,13 +1,13 @@
 <nav class="navbar">
     <div class="navbar-logo">
-        <a href="/">Auth Template</a>
+        <a href="/">IT-Quizes</a>
     </div>
     
     <div class="navbar-links">
-        <a href="/" class="nav-link">Home</a>
         
         <% if (user) { %>
             <!-- Links for authenticated users -->
+            <a href="/fqa" class="nav-link">FAQ</a>
             <a href="/profile" class="nav-link">Profile</a>
             
             <% if (user.role === 'admin') { %>

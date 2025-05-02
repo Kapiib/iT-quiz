@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1>Create New Quiz</h1>
+        
+        <div class="form-container quiz-form">
+            <% if (locals.error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <form id="quizForm" action="/quiz/create" method="POST">
+                <div class="form-group">
+                    <label for="title">Quiz Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="isPublic">
+                        <input type="checkbox" id="isPublic" name="isPublic" checked>
+                        Make this quiz public
+                    </label>
+                </div>
+                
+                <h3>Questions</h3>
+                <div id="questions-container">
+                    <!-- Questions will be added here dynamically -->
+                </div>
+                
+                <button type="button" id="addQuestion" class="btn secondary-btn">Add Question</button>
+                
+                <input type="hidden" name="questions" id="questionsJSON">
+                
+                <div class="form-actions">
+                    <a href="/profile" class="btn cancel-btn">Cancel</a>
+                    <button type="submit" id="submitQuiz" class="btn">Create Quiz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="/js/quizEditor.js"></script>
+</body>
+</html>

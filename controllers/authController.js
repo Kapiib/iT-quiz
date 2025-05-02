@@ -73,6 +73,15 @@ const authController = {
                 });
             }
             
+            // Check if the user has a password (i.e., didn't register via OAuth)
+            if (!user.password) {
+                console.log(`Login failed: OAuth user tried password login - ${email}`);
+                return res.render('login', {
+                    title: 'Login',
+                    error: 'This account was registered with Google. Please use "Sign in with Google" button.'
+                });
+            }
+            
             // Verify password
             const isMatch = await argon2.verify(user.password, password);
             if (!isMatch) {

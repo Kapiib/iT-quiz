@@ -6,7 +6,37 @@
 
     <div class="container">
         <h1 class="title">Velkommen til IT-Quizes</h1>
+        
+        <div class="quiz-search">
+            <input type="text" id="quizSearch" placeholder="Search for quizzes...">
+        </div>
+        
+        <div class="quiz-container">
+            <% if (quizzes && quizzes.length > 0) { %>
+                <% quizzes.forEach(quiz => { %>
+                    <div class="quiz-card">
+                        <h3><%= quiz.title %></h3>
+                        <p><%= quiz.description %></p>
+                        <div class="quiz-meta">
+                            <span>Created by: <%= quiz.creator.name %></span>
+                            <span>Questions: <%= quiz.questions.length %></span>
+                        </div>
+                        <a href="/quiz/<%= quiz._id %>" class="btn quiz-btn">Take Quiz</a>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="no-quizzes">
+                    <p>No quizzes available yet. Be the first to create one!</p>
+                    <% if (user) { %>
+                        <a href="/profile" class="btn">Create Quiz</a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn">Login to Create Quiz</a>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
     </div>
-
+    
+    <script src="/js/search.js"></script>
 </body>
 </html>
