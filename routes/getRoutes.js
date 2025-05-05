@@ -10,6 +10,7 @@ router.get('/', quizController.getHomepageQuizzes);
 // Profile route (protected) - now with userQuizzes
 router.get('/profile', checkAuth, async (req, res) => {
     try {
+        console.log("Profile route: User authenticated as", req.user.id);
         const userQuizzes = await quizController.getUserQuizzes(req.user.id);
         
         res.render('profile', { 
@@ -18,12 +19,8 @@ router.get('/profile', checkAuth, async (req, res) => {
             userQuizzes
         });
     } catch (error) {
-        console.error('Error fetching user quizzes:', error);
-        res.render('profile', { 
-            title: 'Profile',
-            user: req.user,
-            userQuizzes: []
-        });
+        console.error("Profile route error:", error);
+        res.status(500).send("An error occurred");
     }
 });
 
