@@ -26,7 +26,10 @@ router.get('/google', (req, res) => {
 // Google callback
 router.get('/google/callback', async (req, res) => {
   try {
+    console.log("Google callback received");
     const code = req.query.code;
+    
+    console.log("Getting tokens from Google");
     const { tokens } = await client.getToken(code);
     
     // Get user info
@@ -75,13 +78,21 @@ router.get('/google/callback', async (req, res) => {
     // Set cookie and redirect
     res.cookie('token', token, { 
       httpOnly: true,
+      secure: false, // Set to false for HTTP, true for HTTPS
+      sameSite: 'lax', // Add this for better compatibility
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     
     res.redirect('/profile');
   } catch (error) {
-    console.error('Google auth error:', error);
-    res.redirect('/auth/login?error=Google+authentication+failed');
+    console.error('GOOGLE AUTH ERROR:', error);
+    console.error('Error stack:', error.stack);
+    // You could render an error page with detailed information
+    return res.status(500).send(`
+      <h1>Authentication Error</h1>
+      <p>${error.message}</p>
+      <a href="/auth/login">Back to login</a>
+    `);
   }
 });
 
