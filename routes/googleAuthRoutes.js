@@ -3,6 +3,8 @@ const router = express.Router();
 const { OAuth2Client } = require('google-auth-library');
 const User = require('../models/User');
 const { createToken } = require('../utils/jwtUtils');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 // Create OAuth client
 const client = new OAuth2Client(
@@ -37,57 +39,42 @@ router.get('/google/callback', async (req, res) => {
     const payload = ticket.getPayload();
     
     // Find or create user
-    let user = await User.findOne({ 
-      'authProviders.provider': 'google',
-      'authProviders.providerId': payload.sub 
-    });
+    let user = await User.findOne({ email: payload.email });
     
     if (!user) {
-      // Check if user exists with same email
-      user = await User.findOne({ email: payload.email });
-      
-      if (user) {
-        // Link Google account to existing user
-        user.authProviders.push({
-          provider: 'google',
-          providerId: payload.sub
-        });
-      } else {
-        // Create new user
-        user = new User({
-          name: payload.name,
-          email: payload.email,
-          authProviders: [{
-            provider: 'google',
-            providerId: payload.sub
-          }],
-          role: 'user'
-        });
-      }
-      
+      // Create new user if not exists
+      user = new User({
+        name: payload.name,
+        email: payload.email,
+        password: crypto.randomBytes(16).toString('hex'), // Random password
+        profilePic: payload.picture,
+        authProviders: [{ provider: 'google', providerId: payload.sub }]
+      });
+      await user.save();
+    } else if (!user.authProviders.some(p => p.provider === 'google')) {
+      // Add Google as auth provider if user exists but hasn't used Google before
+      user.authProviders.push({ provider: 'google', providerId: payload.sub });
       await user.save();
     }
     
     // Create JWT
-    const jwtPayload = {
-      id: user._id,
-      userId: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      createdAt: user.createdAt
-    };
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
     
-    const token = createToken(jwtPayload);
-    res.cookie('jwt', token, {
+    // Set cookie and redirect
+    res.cookie('token', token, { 
       httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000
+      secure: process.env.NODE_ENV === 'production', 
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     
     res.redirect('/profile');
   } catch (error) {
     console.error('Google auth error:', error);
-    res.redirect('/auth/login');
+    res.redirect('/auth/login?error=Google+authentication+failed');
   }
 });
 

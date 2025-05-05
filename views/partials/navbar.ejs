@@ -4,23 +4,46 @@
     </div>
     
     <div class="navbar-links">
+        <a href="/fqa" class="nav-link">FAQ</a>
         
         <% if (user) { %>
-            <!-- Links for authenticated users -->
-            <a href="/fqa" class="nav-link">FAQ</a>
-            <a href="/profile" class="nav-link">Profile</a>
-            
             <% if (user.role === 'admin') { %>
-                <a href="/admin/dashboard" class="nav-link">Admin Dashboard</a>
+                <a href="/admin/dashboard" class="nav-link">Admin</a>
             <% } else if (user.role === 'moderator') { %>
-                <a href="/moderator/dashboard" class="nav-link">Moderator Dashboard</a>
+                <a href="/moderator/dashboard" class="nav-link">Moderate</a>
             <% } %>
-            
             <a href="/auth/logout" class="nav-link">Logout</a>
-        <% } else { %>
-            <!-- Links for non-authenticated users -->
-            <a href="/auth/login" class="nav-link">Login</a>
-            <a href="/auth/register" class="nav-link">Register</a>
         <% } %>
     </div>
+    
+    <% if (user) { %>
+        <div class="profile-dropdown">
+            <div class="profile-pic-container">
+                <div class="profile-pic" title="<%= user.name %>'s Profile">
+                    <% if (user.profilePic) { %>
+                        <img src="<%= user.profilePic %>" alt="<%= user.name %>">
+                    <% } else { %>
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="dropdown-menu">
+                <div class="dropdown-header">
+                    <div class="dropdown-name"><%= user.name %></div>
+                    <div class="dropdown-email"><%= user.email %></div>
+                </div>
+                <div class="dropdown-links">
+                    <a href="/profile" class="dropdown-item">My Profile</a>
+                    <a href="/settings" class="dropdown-item">Settings</a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/auth/logout" class="dropdown-item">Logout</a>
+                </div>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="auth-links">
+            <a href="/auth/login" class="nav-link">Login</a>
+            <a href="/auth/register" class="nav-link">Register</a>
+        </div>
+    <% } %>
 </nav>

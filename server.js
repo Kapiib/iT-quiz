@@ -19,6 +19,9 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
+// Add this line near the top of your Express app configuration
+app.set('trust proxy', true);
+
 // Connect to MongoDB
 connectDB();
 

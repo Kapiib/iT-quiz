@@ -38,6 +38,14 @@ router.get('/quiz/edit/:id', checkAuth, quizController.showEditForm);
 router.get('/quiz/delete/:id', checkAuth, quizController.deleteQuiz);
 router.get('/quiz/:id', quizController.getQuiz);  // This must come after other specific /quiz/xxx routes
 
+// Settings page (protected)
+router.get('/settings', checkAuth, (req, res) => {
+    res.render('settings', { 
+        title: 'Settings',
+        user: req.user
+    });
+});
+
 // Auth page routes 
 router.get("/auth/register", redirectIfAuthenticated, (req, res) => {
     res.render('register', { title: 'Register' });
