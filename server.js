@@ -17,7 +17,7 @@ dotenv.config();
 
 // Initialize Express app
 const app = express();
-app.set('trust proxy', true);  // Add this line
+app.set('trust proxy', '127.0.0.1');  // This is the most secure option for your setup
 const PORT = process.env.PORT;
 
 // Connect to MongoDB
@@ -52,6 +52,6 @@ app.use('/security/reset', passwordResetRoutes); // Changed from '/password-rese
 app.use('/quiz', require('./routes/quizRoutes')); 
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

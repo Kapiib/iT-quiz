@@ -83,6 +83,8 @@ router.get('/google/callback', async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
     
+    console.log(`User authenticated via Google: ${user.name} (${user.email})`);
+    
     res.redirect('/profile');
   } catch (error) {
     console.error('GOOGLE AUTH ERROR:', error);

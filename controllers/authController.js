@@ -89,6 +89,27 @@ const authController = {
             }
             
             // Verify password
+            try {
+                const isValid = await argon2.verify(user.password, password);
+                // Rest of the function
+            } catch (error) {
+                console.error('Password verification error:', error.message);
+                // If it's a hash format error, provide a clearer message
+                if (error.message.includes('pchstr must contain a $')) {
+                    return res.render('login', {
+                        title: 'Login',
+                        error: 'Please use the "Login with Google" option for this account',
+                        user: null
+                    });
+                }
+                // General error case
+                return res.render('login', {
+                    title: 'Login',
+                    error: 'Authentication error occurred',
+                    user: null
+                });
+            }
+            
             const isMatch = await argon2.verify(user.password, password);
             if (!isMatch) {
                 console.log(`Login failed: Invalid password for ${email}`);
