@@ -33,8 +33,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Apply JWT check to all routes
-app.use(cookieParser());
 app.use(checkJWT);
+
+// Add this new middleware
+app.use((req, res, next) => {
+    res.locals.user = req.user || null;
+    next();
+});
 
 // Routes
 app.use('/', getRoutes);
