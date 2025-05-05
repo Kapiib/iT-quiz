@@ -14,6 +14,7 @@ const authController = {
                 return res.status(400).render('register', {
                     title: 'Register',
                     error: 'Passwords do not match',
+                    user: null  // Add this line
                 });
             }
             
@@ -23,6 +24,7 @@ const authController = {
                 return res.status(400).render('register', {
                     title: 'Register',
                     error: 'Password must be at least 6 characters',
+                    user: null  // Add this line
                 });
             }
             
@@ -32,7 +34,8 @@ const authController = {
                 console.log(`Registration failed: Email already exists - ${email}`);
                 return res.render('register', {
                     title: 'Register',
-                    error: 'Email already registered'
+                    error: 'Email already registered',
+                    user: null  // Add this line
                 });
             }
             
@@ -55,6 +58,7 @@ const authController = {
             res.status(500).render('register', {
                 title: 'Register',
                 error: 'Server error, please try again',
+                user: null  // Add this line
             });
         }
     },
@@ -69,7 +73,8 @@ const authController = {
                 console.log(`Login failed: User not found - ${email}`);
                 return res.render('login', {
                     title: 'Login',
-                    error: 'Invalid email or password'
+                    error: 'Invalid email or password',
+                    user: null  // Add this line
                 });
             }
             
@@ -78,7 +83,8 @@ const authController = {
                 console.log(`Login failed: OAuth user tried password login - ${email}`);
                 return res.render('login', {
                     title: 'Login',
-                    error: 'This account was registered with Google. Please use "Sign in with Google" button.'
+                    error: 'This account was registered with Google. Please use "Sign in with Google" button.',
+                    user: null  // Add this line
                 });
             }
             
@@ -88,7 +94,8 @@ const authController = {
                 console.log(`Login failed: Invalid password for ${email}`);
                 return res.render('login', {
                     title: 'Login',
-                    error: 'Invalid email or password'
+                    error: 'Invalid email or password',
+                    user: null  // Add this line
                 });
             }
             
@@ -100,11 +107,13 @@ const authController = {
             console.error(`Login error: ${error.message}`, error);
             res.status(500).render('login', {
                 title: 'Login',
-                error: 'Server error, please try again'
+                error: 'Server error, please try again',
+                user: null  // Add this line
             });
         }
     },
     
+    // Change the logout function to clear the correct cookie:
     logout: (req, res) => {
         const user = req.user;
         if (user) {
@@ -113,7 +122,9 @@ const authController = {
             console.log('Logout: No active user session');
         }
         
+        // Clear both cookies to be safe
         res.clearCookie('jwt');
+        res.clearCookie('token');
         return res.redirect("/");
     }
 }
@@ -135,7 +146,7 @@ const handleSuccessfulAuth = async (user, res) => {
     
     // Generate and set token
     const token = createToken(payload);
-    res.cookie('jwt', token, {
+    res.cookie('token', token, { // Change to 'token' from 'jwt'
         httpOnly: true,
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     });

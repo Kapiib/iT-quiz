@@ -19,9 +19,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
 
-// Add this line near the top of your Express app configuration
-app.set('trust proxy', true);
-
 // Connect to MongoDB
 connectDB();
 
@@ -47,12 +44,6 @@ app.use('/security/reset', passwordResetRoutes); // Changed from '/password-rese
 
 // Keep only POST routes in quizRoutes.js
 app.use('/quiz', require('./routes/quizRoutes')); 
-
-// Update the main route
-const quizController = require('./controllers/quizController');
-
-// Replace the existing home route with this:
-app.get('/', quizController.getHomepageQuizzes);
 
 // Start server
 app.listen(PORT, () => {

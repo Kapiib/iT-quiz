@@ -12,18 +12,19 @@
             <% } else if (user.role === 'moderator') { %>
                 <a href="/moderator/dashboard" class="nav-link">Moderate</a>
             <% } %>
-            <a href="/auth/logout" class="nav-link">Logout</a>
         <% } %>
     </div>
     
     <% if (user) { %>
         <div class="profile-dropdown">
             <div class="profile-pic-container">
-                <div class="profile-pic" title="<%= user.name %>'s Profile">
-                    <% if (user.profilePic) { %>
+                <div class="profile-pic" title="<%= user && user.name ? user.name + '\'s Profile' : 'Profile' %>">
+                    <% if (user && user.profilePic) { %>
                         <img src="<%= user.profilePic %>" alt="<%= user.name %>">
-                    <% } else { %>
+                    <% } else if (user && user.name) { %>
                         <%= user.name.charAt(0).toUpperCase() %>
+                    <% } else { %>
+                        G
                     <% } %>
                 </div>
             </div>

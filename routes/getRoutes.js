@@ -24,8 +24,12 @@ router.get('/profile', checkAuth, async (req, res) => {
     }
 });
 
+// Example for the FAQ route
 router.get('/fqa', (req, res) => {
-    res.render('faq', { title: 'FAQ' });
+    res.render('faq', { 
+        title: 'FAQ',
+        user: req.user || null  // Always pass user, null if not logged in
+    });
 });
 
 // Add Quiz GET routes
@@ -45,11 +49,17 @@ router.get('/settings', checkAuth, (req, res) => {
 
 // Auth page routes 
 router.get("/auth/register", redirectIfAuthenticated, (req, res) => {
-    res.render('register', { title: 'Register' });
+    res.render('register', { 
+        title: 'Register',
+        user: null  // Add this line
+    });
 });
 
 router.get("/auth/login", redirectIfAuthenticated, (req, res) => {
-    res.render('login', { title: 'Login' });
+    res.render('login', { 
+        title: 'Login',
+        user: null  // Add this line
+    });
 });
 
 router.get("/auth/logout", authController.logout);

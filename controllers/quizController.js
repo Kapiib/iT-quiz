@@ -26,7 +26,8 @@ const quizController = {
                 
             res.render('index', {
                 title: 'Home',
-                quizzes: quizzes
+                quizzes: quizzes,
+                user: req.user || null  // Add this line
             });
         } catch (error) {
             console.error('Error fetching quizzes:', error);
@@ -51,7 +52,8 @@ const quizController = {
     // Show quiz creation form
     showCreateForm: (req, res) => {
         res.render('quiz/create', {
-            title: 'Create Quiz'
+            title: 'Create Quiz',
+            user: req.user || null  // Add this line
         });
     },
     
@@ -75,7 +77,8 @@ const quizController = {
             res.render('quiz/create', {
                 title: 'Create Quiz',
                 error: 'Failed to create quiz',
-                formData: req.body
+                formData: req.body,
+                user: req.user || null  // Add this line
             });
         }
     },
@@ -89,19 +92,22 @@ const quizController = {
             if (!quiz) {
                 return res.status(404).render('error', {
                     title: 'Quiz Not Found',
-                    message: 'The quiz you are looking for does not exist'
+                    message: 'The quiz you are looking for does not exist',
+                    user: req.user || null  // Add this line
                 });
             }
             
             res.render('quiz/play', {
                 title: quiz.title,
-                quiz
+                quiz,
+                user: req.user || null  // Add this line
             });
         } catch (error) {
             console.error('Error fetching quiz:', error);
             res.render('error', {
                 title: 'Error',
-                message: 'Failed to load quiz'
+                message: 'Failed to load quiz',
+                user: req.user || null  // Add this line
             });
         }
     },
@@ -114,7 +120,8 @@ const quizController = {
             if (!quiz) {
                 return res.status(404).render('error', {
                     title: 'Quiz Not Found',
-                    message: 'The quiz you are trying to edit does not exist'
+                    message: 'The quiz you are trying to edit does not exist',
+                    user: req.user || null  // Add this line
                 });
             }
             
@@ -122,19 +129,22 @@ const quizController = {
             if (quiz.creator.toString() !== req.user.id) {
                 return res.status(403).render('error', {
                     title: 'Access Denied',
-                    message: 'You can only edit quizzes you created'
+                    message: 'You can only edit quizzes you created',
+                    user: req.user || null  // Add this line
                 });
             }
             
             res.render('quiz/edit', {
                 title: 'Edit Quiz',
-                quiz
+                quiz,
+                user: req.user || null  // Add this line
             });
         } catch (error) {
             console.error('Error fetching quiz for edit:', error);
             res.render('error', {
                 title: 'Error',
-                message: 'Failed to load quiz for editing'
+                message: 'Failed to load quiz for editing',
+                user: req.user || null  // Add this line
             });
         }
     },
@@ -148,7 +158,8 @@ const quizController = {
             if (!quiz) {
                 return res.status(404).render('error', {
                     title: 'Quiz Not Found',
-                    message: 'The quiz you are trying to update does not exist'
+                    message: 'The quiz you are trying to update does not exist',
+                    user: req.user || null  // Add this line
                 });
             }
             
@@ -156,7 +167,8 @@ const quizController = {
             if (quiz.creator.toString() !== req.user.id) {
                 return res.status(403).render('error', {
                     title: 'Access Denied',
-                    message: 'You can only update quizzes you created'
+                    message: 'You can only update quizzes you created',
+                    user: req.user || null  // Add this line
                 });
             }
             
@@ -172,7 +184,8 @@ const quizController = {
             res.render('quiz/edit', {
                 title: 'Edit Quiz',
                 error: 'Failed to update quiz',
-                quiz: { ...req.body, _id: req.params.id }
+                quiz: { ...req.body, _id: req.params.id },
+                user: req.user || null  // Add this line
             });
         }
     },
@@ -185,7 +198,8 @@ const quizController = {
             if (!quiz) {
                 return res.status(404).render('error', {
                     title: 'Quiz Not Found',
-                    message: 'The quiz you are trying to delete does not exist'
+                    message: 'The quiz you are trying to delete does not exist',
+                    user: req.user || null  // Add this line
                 });
             }
             
@@ -193,7 +207,8 @@ const quizController = {
             if (quiz.creator.toString() !== req.user.id && req.user.role !== 'admin') {
                 return res.status(403).render('error', {
                     title: 'Access Denied',
-                    message: 'You can only delete quizzes you created'
+                    message: 'You can only delete quizzes you created',
+                    user: req.user || null  // Add this line
                 });
             }
             
@@ -203,7 +218,8 @@ const quizController = {
             console.error('Error deleting quiz:', error);
             res.render('error', {
                 title: 'Error',
-                message: 'Failed to delete quiz'
+                message: 'Failed to delete quiz',
+                user: req.user || null  // Add this line
             });
         }
     }

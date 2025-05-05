@@ -2,7 +2,8 @@ const { verifyToken } = require("../utils/jwtUtils.js");
 
 // Check if user is authenticated
 const checkAuth = (req, res, next) => {
-    const token = req.cookies.jwt;
+    // Check both cookie names during the transition
+    const token = req.cookies.token || req.cookies.jwt;
 
     if (!token) {
         return res.redirect("/auth/login");
@@ -12,6 +13,7 @@ const checkAuth = (req, res, next) => {
 
     if (!decodedToken) {
         res.clearCookie("jwt");
+        res.clearCookie("token");
         return res.redirect("/auth/login");
     }
 

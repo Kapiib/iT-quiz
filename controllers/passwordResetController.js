@@ -8,7 +8,8 @@ const passwordResetController = {
     showRequestForm: (req, res) => {
         res.render('security/reset/request', {
             title: 'Reset Password',
-            error: null
+            error: null,
+            user: null
         });
     },
 
@@ -23,7 +24,8 @@ const passwordResetController = {
                 console.log(`Password reset failed: User not found - ${email}`);
                 return res.render('security/reset/request', {
                     title: 'Reset Password',
-                    error: 'If a user with that email exists, a reset link has been sent'
+                    error: 'If a user with that email exists, a reset link has been sent',
+                    user: null
                 });
             }
             
@@ -44,7 +46,8 @@ const passwordResetController = {
             // Don't reveal if user exists for security
             return res.render('security/reset/confirmation', {
                 title: 'Reset Email Sent',
-                message: 'If an account with that email exists, a password reset link has been sent.'
+                message: 'If an account with that email exists, a password reset link has been sent.',
+                user: null
             });
             
         } catch (error) {
@@ -79,7 +82,8 @@ const passwordResetController = {
             return res.render('security/reset/reset', {
                 title: 'Set New Password',
                 token,
-                error: null
+                error: null,
+                user: null
             });
             
         } catch (error) {
@@ -102,7 +106,8 @@ const passwordResetController = {
                 return res.render('security/reset/reset', {
                     title: 'Set New Password',
                     token,
-                    error: 'Passwords do not match'
+                    error: 'Passwords do not match',
+                    user: null
                 });
             }
             
@@ -111,7 +116,8 @@ const passwordResetController = {
                 return res.render('security/reset/reset', {
                     title: 'Set New Password',
                     token,
-                    error: 'Password must be at least 6 characters'
+                    error: 'Password must be at least 6 characters',
+                    user: null
                 });
             }
             
@@ -140,7 +146,8 @@ const passwordResetController = {
             
             return res.render('security/reset/success', {
                 title: 'Password Reset',
-                message: 'Your password has been updated successfully. You can now log in with your new password.'
+                message: 'Your password has been updated successfully. You can now log in with your new password.',
+                user: null
             });
             
         } catch (error) {
