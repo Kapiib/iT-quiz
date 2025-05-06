@@ -38,6 +38,39 @@
   --color-instructions-bg: #252525;
 }
 
+/* Add at the top of your CSS after the :root variables */
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+/* Override browser autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--color-input-bg) inset !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+    transition: background-color 5000s ease-in-out 0s;
+    caret-color: var(--color-text);
+}
+
 /* Apply variables to elements */
 body {
   background-color: var(--color-background);
@@ -52,7 +85,8 @@ body {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    font-weight: 400; /* Default to regular */
     line-height: 1.6;
     color: var(--color-text);
     background-color: var(--color-background);
@@ -62,6 +96,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 900;
 }
 
 /* Container */
@@ -85,12 +120,14 @@ body {
 .navbar-logo {
     flex-shrink: 0;
     margin-right: 1.5rem;  /* Added margin to separate from nav items */
+    margin-left: 1rem; /* This will move the logo right by 1rem */
 }
 
 .navbar-logo a {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
     color: var(--color-navbar-text);
-    font-size: 1.1rem;  /* Slightly larger font size (was 1rem) */
-    font-weight: bold;
     text-decoration: none;
 }
 
@@ -141,6 +178,7 @@ body {
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     transition: all 0.2s ease;
+    font-weight: 600;
 }
 
 .auth-links .nav-link:first-child {
@@ -177,7 +215,7 @@ body {
 /* Style for Register button hover */
 .auth-links .nav-link:last-child:hover {
     color: white !important; /* White text on purple background */
-    background-color: var(--color-primary-hover) !important; /* Darker purple on hover */
+    background-color: var (--color-primary-hover) !important; /* Darker purple on hover */
 }
 
 /* Profile Picture in Navbar */
@@ -246,7 +284,7 @@ body {
 }
 
 .dropdown-name {
-    font-weight: bold;
+    font-weight: 600;
     color: var(--color-text);
     margin-bottom: 5px;
 }
@@ -296,7 +334,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: 500;
+    font-weight: 400; /* This is already inherited but explicit for clarity */
     color: var(--color-form-label);
 }
 
@@ -319,6 +357,7 @@ button {
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
 button:hover {
@@ -504,18 +543,19 @@ button:hover {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #777;
+    color: var(--color-primary); /* Changed from gray to purple */
     z-index: 10;
 }
 
 .password-toggle:hover {
-    color: #333;
+    color: white; /* Changed from dark gray to white */
 }
 
 .password-toggle img {
     width: 20px;
     height: 20px;
     display: block;
+    filter: invert(50%) sepia(41%) saturate(1352%) hue-rotate(230deg) brightness(85%) contrast(93%); /* This adds purple tint to the icon */
 }
 
 /* Quiz List Styles */
@@ -562,6 +602,7 @@ button:hover {
     margin-bottom: 0.5rem;
     color: var(--color-quiz-header);
     font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .quiz-card p {
@@ -588,6 +629,7 @@ button:hover {
     padding: 0.5rem;
     border-radius: 4px;
     transition: background-color 0.3s;
+    font-weight: 600;
 }
 
 .quiz-btn:hover {
@@ -740,6 +782,7 @@ button:hover {
     font-weight: 500;
     text-align: center;
     transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .edit-btn {
@@ -753,6 +796,7 @@ button:hover {
     font-weight: 500;
     text-align: center;
     transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .edit-btn:hover {
@@ -771,6 +815,7 @@ button:hover {
     font-weight: 500;
     text-align: center;
     transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .delete-btn:hover {
@@ -1059,6 +1104,7 @@ input[type="file"] {
     margin-bottom: 0.5rem;
     color: var(--color-quiz-header);
     font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .quiz-card p {
@@ -1076,6 +1122,7 @@ input[type="file"] {
     font-weight: 500;
     text-align: center;
     transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .quiz-actions {
@@ -1198,6 +1245,7 @@ input[type="file"] {
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
+    font-weight: 400; /* This is already inherited but explicit for clarity */
 }
 
 .option:hover {
@@ -1228,7 +1276,7 @@ input[type="file"] {
 
 .score-display {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 900;
     color: #2c3e50;
 }
 
@@ -1252,6 +1300,7 @@ input[type="file"] {
     align-items: center;
     transition: all 0.3s ease;
     border: 1px solid var(--color-create);
+    font-weight: 600;
 }
 
 .create-quiz-nav-btn:hover {
@@ -1303,4 +1352,313 @@ input[type="file"] {
         margin: 0.5rem auto;
         order: 2;
     }
+}
+
+/* Logo and Main Headings - Poppins Black */
+h1, .title {
+    font-weight: 600;
+}
+
+.score-display {
+    font-weight: 900;
+}
+
+/* Section Titles and Important Info - Poppins SemiBold */
+h2, h3, 
+.quiz-card h3,
+.dropdown-name,
+button,
+.quiz-btn, .view-btn, .edit-btn, .delete-btn,
+.create-quiz-nav-btn,
+.auth-links .nav-link {
+    font-weight: 600;
+}
+
+/* All other text - Poppins Regular (default) */
+p, span, div, 
+.nav-link,
+.quiz-description,
+.quiz-meta,
+.form-group label,
+.option {
+    font-weight: 400; /* This is already inherited but explicit for clarity */
+}
+
+/* Homepage Hero Section */
+.hero-section {
+    background-color: var(--clr-surface-tonal-a10);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    margin: 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #8e44ad 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    color: var(--color-quiz-description);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Categories Section */
+.section-title {
+    text-align: center;
+    margin: 3rem 0 2rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-primary);
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+}
+
+.categories-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.category-card {
+    background-color: var(--color-container-bg);
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-border);
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.category-card:hover::before {
+    opacity: 1;
+}
+
+.category-icon {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(155, 89, 182, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+    background-color: rgba(155, 89, 182, 0.25);
+}
+
+.category-icon span {
+    font-size: 2rem;
+}
+
+.category-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.category-card p {
+    font-size: 0.95rem;
+    color: var(--color-quiz-meta);
+    margin-bottom: 1.5rem;
+}
+
+.category-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.category-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    bottom: -4px;
+    left: 0;
+    transition: width 0.3s ease;
+}
+
+.category-link:hover::after {
+    width: 100%;
+}
+
+/* Home page quiz section */
+.home-quizzes {
+    margin-top: 1rem;
+}
+
+.view-all-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.view-all-link {
+    display: inline-block;
+    color: var(--color-primary);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.view-all-link:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Make it responsive */
+@media (max-width: 768px) {
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+    }
+    
+    .categories-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+/* Move the h1 title into the form */
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+/* Remove the outside title */
+.title.login-title, .title.register-title {
+    display: none;
+}
+
+/* Improve input focus states - use primary color */
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Improve link visibility in forms */
+.form-links {
+    margin-bottom: 1.5rem;
+}
+
+.form-links a, .form-footer a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    position: relative;
+}
+
+.form-links a:hover, .form-footer a:hover {
+    color: var(--color-primary-hover);
+}
+
+.form-links a::after, .form-footer a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--color-primary);
+    transition: width 0.2s ease;
+}
+
+.form-links a:hover::after, .form-footer a:hover::after {
+    width: 100%;
+}
+
+/* Position forgot password link closer to password input */
+.form-links {
+    margin-top: -0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: right;
+}
+
+/* Add more spacing before the login button */
+.form-container button[type="submit"] {
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+/* Improve form footer styling */
+.form-footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--color-quiz-meta);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+}
+
+/* Adjust the "Already have an account" text positioning */
+.form-container > p {
+    margin-top: 2rem; /* Increased from 1.5rem */
+    text-align: center;
+    color: var(--color-quiz-meta);
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
 }

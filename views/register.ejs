@@ -5,9 +5,10 @@
     <%- include('partials/navbar') %>
 
     <div class="container">
-        <h1 class="title">Register</h1>
+        <h1 class="title register-title">Register</h1>
         
         <div class="form-container">
+            <h1 class="form-title">Register</h1>
             <% if (typeof error !== 'undefined') { %>
                 <div class="error-message">
                     <%= error %>
@@ -44,7 +45,7 @@
                 <button type="submit">Register</button>
             </form>
             
-            <p>Already have an account? <a href="/auth/login">Login here</a></p>
+            <p class="form-footer">Already have an account? <a href="/auth/login">Login here</a></p>
         </div>
     </div>
     <script src="/js/passwordToggle.js"></script>

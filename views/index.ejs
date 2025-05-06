@@ -6,6 +6,107 @@
 
     <div class="container">
         <h1 class="title">Velkommen til IT-Quizzes</h1>
-    
+        
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2>Test your IT knowledge</h2>
+                <p>Challenge yourself with quizzes on various IT topics, from programming languages to cybersecurity.</p>
+                <div class="hero-buttons">
+                    <a href="/quizzes" class="btn primary-btn">Browse All Quizzes</a>
+                    <% if (user) { %>
+                        <a href="/quiz/create" class="btn secondary-btn">Create Quiz</a>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn secondary-btn">Login to Create</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">Quiz Categories</h2>
+        
+        <div class="categories-container">
+            <div class="category-card" data-category="programming">
+                <div class="category-icon">
+                    <span>{&nbsp;}</span>
+                </div>
+                <h3>Programming</h3>
+                <p>JavaScript, Python, Java, C++, and more...</p>
+                <a href="/quizzes?category=programming" class="category-link">Explore Programming</a>
+            </div>
+            
+            <div class="category-card" data-category="databases">
+                <div class="category-icon">
+                    <span>🗄️</span>
+                </div>
+                <h3>Databases</h3>
+                <p>SQL, MongoDB, database design patterns</p>
+                <a href="/quizzes?category=databases" class="category-link">Explore Databases</a>
+            </div>
+            
+            <div class="category-card" data-category="networking">
+                <div class="category-icon">
+                    <span>🌐</span>
+                </div>
+                <h3>Networking</h3>
+                <p>TCP/IP, routing, protocols, network security</p>
+                <a href="/quizzes?category=networking" class="category-link">Explore Networking</a>
+            </div>
+            
+            <div class="category-card" data-category="security">
+                <div class="category-icon">
+                    <span>🔒</span>
+                </div>
+                <h3>Cybersecurity</h3>
+                <p>Penetration testing, cryptography, security best practices</p>
+                <a href="/quizzes?category=security" class="category-link">Explore Security</a>
+            </div>
+            
+            <div class="category-card" data-category="webdev">
+                <div class="category-icon">
+                    <span>🌍</span>
+                </div>
+                <h3>Web Development</h3>
+                <p>HTML, CSS, JavaScript, frameworks, responsive design</p>
+                <a href="/quizzes?category=webdev" class="category-link">Explore Web Dev</a>
+            </div>
+            
+            <div class="category-card" data-category="os">
+                <div class="category-icon">
+                    <span>💻</span>
+                </div>
+                <h3>Operating Systems</h3>
+                <p>Linux, Windows, macOS, system administration</p>
+                <a href="/quizzes?category=os" class="category-link">Explore OS</a>
+            </div>
+        </div>
+        
+        <div class="recent-quizzes">
+            <h2 class="section-title">Recently Added</h2>
+            <div class="quiz-container home-quizzes">
+                <% if (quizzes && quizzes.length > 0) { %>
+                    <% quizzes.slice(0, 3).forEach(quiz => { %>
+                        <div class="quiz-card">
+                            <h3><%= quiz.title %></h3>
+                            <p><%= quiz.description %></p>
+                            <div class="quiz-meta">
+                                <span>Created by: <%= quiz.creator.name %></span>
+                                <span>Questions: <%= quiz.questions.length %></span>
+                            </div>
+                            <a href="/quiz/<%= quiz._id %>" class="btn quiz-btn">Take Quiz</a>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="no-quizzes">
+                        <p>No quizzes available yet. Be the first to create one!</p>
+                    </div>
+                <% } %>
+            </div>
+            <div class="view-all-container">
+                <a href="/quizzes" class="view-all-link">View All Quizzes</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/search.js"></script>
 </body>
 </html>
