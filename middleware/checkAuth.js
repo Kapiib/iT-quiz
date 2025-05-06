@@ -47,7 +47,7 @@ const isModerator = (req, res, next) => {
 
 // Redirect authenticated users away from auth pages
 const redirectIfAuthenticated = (req, res, next) => {
-    const token = req.cookies.jwt;
+    const token = req.cookies.token;
 
     if (token) {
         const decodedToken = verifyToken(token);

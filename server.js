@@ -51,6 +51,33 @@ app.use('/security/reset', passwordResetRoutes); // Changed from '/password-rese
 // Keep only POST routes in quizRoutes.js
 app.use('/quiz', require('./routes/quizRoutes')); 
 
+// Handle all errors including 404s in one place
+app.use((req, res, next) => {
+    // Handle 404 errors
+    res.status(404).render('error', {
+        title: 'Page Not Found',
+        message: 'The page you requested does not exist.',
+        user: req.user || null
+    });
+});
+
+// Global error handler for all other errors
+app.use((err, req, res, next) => {
+    console.error('Error:', err);
+    
+    // Set default values
+    const statusCode = err.statusCode || 500;
+    const errorTitle = err.title || 'Error';
+    const errorMessage = err.message || 'An unexpected error occurred';
+    
+    // Render the error page
+    res.status(statusCode).render('error', {
+        title: errorTitle,
+        message: errorMessage,
+        user: req.user || null
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

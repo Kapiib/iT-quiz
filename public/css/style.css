@@ -364,14 +364,31 @@ button:hover {
     background-color: var(--color-primary-hover);
 }
 
-/* Error messages */
+/* Updated Error messages for dark theme */
 .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: rgba(155, 89, 182, 0.2); /* Semi-transparent purple */
+    color: #f8d9e0; /* Light pink/white text */
     padding: 0.75rem;
     margin-bottom: 1rem;
     border-radius: 4px;
-    border: 1px solid #f5c6cb;
+    border: 1px solid var(--color-primary); /* Purple border */
+    position: relative;
+}
+
+.error-message::before {
+    content: '⚠️';
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
+.error-message {
+    animation: errorPulse 2s ease-in-out;
+}
+
+@keyframes errorPulse {
+    0% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(155, 89, 182, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0); }
 }
 
 /* Profile page */
@@ -1661,4 +1678,27 @@ p, span, div,
     color: var(--color-quiz-meta);
     padding-top: 1rem;
     border-top: 1px solid var(--color-border);
+}
+
+/* Enhanced form title styling with purple underline */
+.form-container h1.form-title {
+    text-align: center;
+    margin: 0;
+    padding: 1rem 0 0.5rem 0; /* Reduced bottom padding */
+    font-weight: 600;
+    color: var(--color-text);
+    position: relative;
+    margin-bottom: 2rem; /* Keep the spacing after title */
+}
+
+.form-container h1.form-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0.2rem; /* Position closer to the text */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px; /* Width of the underline */
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
 }
