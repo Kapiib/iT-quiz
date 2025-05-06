@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <div class="quiz-play-container">
+            <div class="quiz-header">
+                <h1><%= quiz.title %></h1>
+                <p class="quiz-description"><%= quiz.description %></p>
+                <p class="quiz-meta">Created by: <%= quiz.creator.name %> | Questions: <%= quiz.questions.length %></p>
+            </div>
+            
+            <div id="quiz-play-area">
+                <!-- Initial screen -->
+                <div id="start-screen" class="quiz-screen active">
+                    <h2>Ready to begin?</h2>
+                    <p>This quiz contains <%= quiz.questions.length %> questions.</p>
+                    <button id="start-quiz" class="btn">Start Quiz</button>
+                </div>
+                
+                <!-- Question screen (hidden initially) -->
+                <div id="question-screen" class="quiz-screen">
+                    <div class="quiz-progress">
+                        <div class="progress-text">Question <span id="current-question">1</span> of <%= quiz.questions.length %></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="timer">
+                        <div class="timer-text">Time left: <span id="time-remaining">30</span>s</div>
+                        <div class="timer-bar">
+                            <div class="timer-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-content">
+                        <h2 id="question-text"></h2>
+                        <div id="options-list" class="options-list"></div>
+                    </div>
+                </div>
+                
+                <!-- Results screen (hidden initially) -->
+                <div id="results-screen" class="quiz-screen">
+                    <h2>Quiz Complete!</h2>
+                    <div class="results-summary">
+                        <div class="score-display">
+                            <div class="score">Your score: <span id="final-score">0</span>/<span id="total-questions"><%= quiz.questions.length %></span></div>
+                            <div class="percentage">(<span id="score-percent">0</span>%)</div>
+                        </div>
+                    </div>
+                    <button id="restart-quiz" class="btn">Try Again</button>
+                    <a href="/" class="btn secondary-btn">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Store quiz data as a data attribute (no red highlighting) -->
+    <div id="quiz-data" data-quiz="<%- encodeURIComponent(JSON.stringify(quiz)) %>" style="display: none;"></div>
+    <script src="/js/quizPlayer.js"></script>
+</body>
+</html>

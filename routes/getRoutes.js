@@ -64,4 +64,23 @@ router.get("/auth/login", redirectIfAuthenticated, (req, res) => {
 
 router.get("/auth/logout", authController.logout);
 
+// Add this route after your other routes
+router.get('/quizzes', async (req, res) => {
+    try {
+        const quizzes = await quizController.getAllQuizzes();
+        res.render('quizzes', {
+            title: 'All Quizzes',
+            quizzes: quizzes,
+            user: req.user || null
+        });
+    } catch (error) {
+        console.error("Quizzes route error:", error);
+        res.status(500).render('error', {
+            title: 'Error',
+            message: 'Failed to load quizzes',
+            user: req.user || null
+        });
+    }
+});
+
 module.exports = router;
