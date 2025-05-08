@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <h1 class="title">Edit Quiz</h1>
+        
+        <div class="form-container quiz-form">
+            <% if (locals.error) { %>
+                <div class="error-message">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <form id="quizForm" action="/quiz/edit/<%= quiz._id %>" method="POST">
+                <div class="form-group">
+                    <label for="title">Quiz Title</label>
+                    <input type="text" id="title" name="title" required placeholder="Enter a descriptive title" value="<%= quiz.title %>">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" class="styled-textarea" rows="3" placeholder="Explain what this quiz is about"><%= quiz.description %></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="visibility">Quiz Visibility</label>
+                    <select id="visibility" name="visibility" class="styled-select">
+                        <option value="public" <%= quiz.isPublic ? 'selected' : '' %>>Public (visible to all users)</option>
+                        <option value="private" <%= !quiz.isPublic ? 'selected' : '' %>>Private (only visible to you)</option>
+                    </select>
+                </div>
+                
+                <h3>Questions</h3>
+                <div id="questions-container">
+                    <!-- Questions will be added here dynamically -->
+                </div>
+                
+                <button type="button" id="addQuestion" class="btn add-btn">Add Question</button>
+                
+                <input type="hidden" name="questions" id="questionsJSON">
+                <input type="hidden" name="isPublic" value="<%= quiz.isPublic ? 'true' : 'false' %>">
+                
+                <!-- Modified form-actions section -->
+                <div class="form-actions">
+                    <a href="/profile" class="cancel-btn">Cancel</a>
+                    <button type="submit" id="submitQuiz" class="btn">Update Quiz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Store quiz data as a data attribute (no red highlighting) -->
+    <div id="quiz-data" data-quiz="<%- encodeURIComponent(JSON.stringify(quiz || {})) %>" style="display: none;"></div>
+
+    <script>
+        // Extract quiz data from the data attribute
+        const quizDataElement = document.getElementById('quiz-data');
+        const quizData = JSON.parse(decodeURIComponent(quizDataElement.dataset.quiz));
+    </script>
+    <script src="/js/quizEditor.js"></script>
+    <script src="/js/editQuiz.js"></script>
+</body>
+</html>

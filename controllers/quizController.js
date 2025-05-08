@@ -67,7 +67,7 @@ const quizController = {
                 description,
                 creator: req.user.id,
                 questions: JSON.parse(questions),
-                isPublic: isPublic === 'on'
+                isPublic: isPublic === 'true' || isPublic === 'public'  // Check for both possible values
             });
             
             await newQuiz.save();
@@ -175,7 +175,7 @@ const quizController = {
             quiz.title = title;
             quiz.description = description;
             quiz.questions = JSON.parse(questions);
-            quiz.isPublic = isPublic === 'on';
+            quiz.isPublic = isPublic === 'true' || isPublic === 'public';  // Check for both possible values
             
             await quiz.save();
             res.redirect('/profile');

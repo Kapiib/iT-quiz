@@ -1,25 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const questionsContainer = document.getElementById('questions-container');
-    const addQuestionBtn = document.getElementById('addQuestion');
-    const quizForm = document.getElementById('quizForm');
-    const questionsJSON = document.getElementById('questionsJSON');
-    
-    let questionCount = 0;
-    
-    // Only add initial question if we're not in edit mode
-    if (typeof quizData === 'undefined') {
-        addQuestion();
-    }
-    
-    // Add question button click handler
-    addQuestionBtn.addEventListener('click', addQuestion);
-    
-    // Form submit handler - only add if we're not in edit mode
-    if (typeof quizData === 'undefined' && quizForm) {
-        quizForm.addEventListener('submit', function(e) {
+    // Check if we have quiz data and are in edit mode
+    if (typeof quizData !== 'undefined') {
+        const questionsContainer = document.getElementById('questions-container');
+        
+        // Clear any automatically added questions (from quizEditor.js)
+        questionsContainer.innerHTML = '';
+        
+        // Load each existing question
+        quizData.questions.forEach((question, index) => {
+            addExistingQuestion(question, index);
+        });
+        
+        // Update form submission to handle edit case
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Collect all questions and options
+            // Use the same question collection logic that's in quizEditor.js
             const questions = [];
             
             document.querySelectorAll('.question-item').forEach(questionItem => {
@@ -45,26 +41,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
             
-            // Check if there's at least one question
+            // Validation checks
             if (questions.length === 0) {
                 alert('Please add at least one question to your quiz.');
                 return;
             }
             
-            // Check if each question has a text
             for (let i = 0; i < questions.length; i++) {
                 if (!questions[i].question.trim()) {
                     alert(`Question ${i+1} cannot be empty.`);
                     return;
                 }
                 
-                // Check if each question has at least 2 options
                 if (questions[i].options.length < 2) {
                     alert(`Question ${i+1} must have at least 2 options.`);
                     return;
                 }
                 
-                // Check if each question has at least one correct answer
                 if (!questions[i].options.some(option => option.isCorrect)) {
                     alert(`Question ${i+1} must have at least one correct answer.`);
                     return;
@@ -72,20 +65,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Set the JSON data
-            questionsJSON.value = JSON.stringify(questions);
+            document.getElementById('questionsJSON').value = JSON.stringify(questions);
             
-            // Add this line to set isPublic based on the visibility dropdown
+            // Set isPublic based on visibility dropdown
             document.querySelector('input[name="isPublic"]').value = 
                 document.getElementById('visibility').value === 'public';
             
             // Submit the form
-            quizForm.submit();
+            this.submit();
         });
     }
     
-    // Function to add a new question
-    function addQuestion() {
-        questionCount++;
+    // Function to add an existing question with its options
+    function addExistingQuestion(questionData, index) {
+        const questionCount = index + 1;
         
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question-item';
@@ -95,12 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
             ${questionCount > 1 ? '<button type="button" class="remove-question">&times;</button>' : ''}
             <div class="form-group">
                 <label>Question ${questionCount}</label>
-                <input type="text" class="question-text" placeholder="Enter your question" required>
+                <input type="text" class="question-text" placeholder="Enter your question" value="${escapeHtml(questionData.question)}" required>
             </div>
             
             <div class="form-group">
                 <label>Time Limit (seconds)</label>
-                <input type="number" class="time-limit" min="5" max="120" value="30" required>
+                <input type="number" class="time-limit" min="5" max="120" value="${questionData.timeLimit || 30}" required>
             </div>
             
             <div class="options-container">
@@ -111,111 +104,89 @@ document.addEventListener('DOMContentLoaded', function() {
             <button type="button" class="add-option btn add-btn">Add Option</button>
         `;
         
-        questionsContainer.appendChild(questionDiv);
+        document.getElementById('questions-container').appendChild(questionDiv);
         
-        // Add event listener for remove button only if it exists
+        // Add event listener for remove button
         const removeButton = questionDiv.querySelector('.remove-question');
         if (removeButton) {
             removeButton.addEventListener('click', function() {
                 if (document.querySelectorAll('.question-item').length > 1) {
                     questionDiv.remove();
-                    updateQuestionNumbers(); // Add this function to update numbering
+                    updateQuestionNumbers();
                 }
             });
         }
         
-        // Add initial options (minimum 2)
+        // Add options for this question
         const optionsContainer = questionDiv.querySelector('.options-container');
-        addOption(optionsContainer, true);  // First option is initial
-        addOption(optionsContainer, true);  // Second option is initial
         
-        // Set up event listeners
+        // Add each option
+        questionData.options.forEach(option => {
+            addExistingOption(optionsContainer, option);
+        });
+        
+        // Set up event listener for adding new options
         questionDiv.querySelector('.add-option').addEventListener('click', function() {
-            addOption(optionsContainer);
+            // Use the regular addOption function from quizEditor.js
+            window.addOption(optionsContainer);
         });
     }
     
-    // Updated addOption function that correctly handles initial options
-    function addOption(container, isInitial = false) {
+    // Function to add an existing option
+    function addExistingOption(container, optionData) {
         const optionDiv = document.createElement('div');
         optionDiv.className = 'option-item';
         
-        // Mark initial options with a data attribute for later identification
-        if (isInitial) {
-            optionDiv.dataset.initial = 'true';
-        }
-        
-        // Use consistent HTML but add a class for initial options
+        // Create option HTML
         optionDiv.innerHTML = `
-            <input type="text" class="option-text" placeholder="Option text" required>
+            <input type="text" class="option-text" placeholder="Option text" value="${escapeHtml(optionData.text)}" required>
             <div class="is-correct-container">
                 <label class="is-correct-label">
-                    <input type="checkbox" class="is-correct">
+                    <input type="checkbox" class="is-correct" ${optionData.isCorrect ? 'checked' : ''}>
                     <span class="correct-circle"></span>
                 </label>
             </div>
-            <button type="button" class="remove-option ${isInitial ? 'hidden-button' : ''}">&times;</button>
+            <button type="button" class="remove-option">&times;</button>
         `;
         
         container.appendChild(optionDiv);
         
-        // Only add click handler if it's not an initial option
-        if (!isInitial) {
-            const removeButton = optionDiv.querySelector('.remove-option');
-            removeButton.addEventListener('click', function() {
-                if (container.querySelectorAll('.option-item').length > 2) {
-                    optionDiv.remove();
-                } else {
-                    alert('Each question must have at least 2 options.');
-                }
-            });
-        }
+        // Add event listener for remove button
+        const removeButton = optionDiv.querySelector('.remove-option');
+        removeButton.addEventListener('click', function() {
+            if (container.querySelectorAll('.option-item').length > 2) {
+                optionDiv.remove();
+            } else {
+                alert('Each question must have at least 2 options.');
+            }
+        });
     }
     
-    // Improved function to update option delete buttons visibility
-    function updateOptionDeleteButtons(container) {
-        const optionItems = container.querySelectorAll('.option-item');
-        const totalOptions = optionItems.length;
-        
-        // Show delete buttons only when we have more than 2 options
-        if (totalOptions > 2) {
-            // Show all delete buttons when we have more than 2 options
-            optionItems.forEach(item => {
-                const deleteBtn = item.querySelector('.remove-option');
-                deleteBtn.style.display = 'flex';
-            });
-        } else {
-            // Hide all delete buttons when we only have 2 options
-            optionItems.forEach(item => {
-                const deleteBtn = item.querySelector('.remove-option');
-                deleteBtn.style.display = 'none';
-            });
-        }
+    // Helper function to escape HTML to prevent XSS
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
     }
     
-    // Add this new function to update question numbers and check for first question
+    // Helper function to update question numbers
     function updateQuestionNumbers() {
         const questions = document.querySelectorAll('.question-item');
         questions.forEach((question, index) => {
-            // Update the question number in the label
             const label = question.querySelector('.form-group label');
             if (label && label.textContent.includes('Question')) {
                 label.textContent = `Question ${index + 1}`;
             }
             
-            // Show/hide remove button based on position
             const removeBtn = question.querySelector('.remove-question');
             if (index === 0) {
-                // First question should not have a remove button
                 if (removeBtn) removeBtn.style.display = 'none';
             } else {
-                // Other questions should have a remove button
                 if (removeBtn) removeBtn.style.display = 'block';
             }
         });
     }
-    
-    // Make functions globally accessible
-    window.addOption = addOption;
-    window.updateQuestionNumbers = updateQuestionNumbers;
 });
