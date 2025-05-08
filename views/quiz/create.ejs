@@ -14,17 +14,6 @@
                 </div>
             <% } %>
             
-            <div class="creation-instructions">
-                <h3>How to create a quiz:</h3>
-                <ol>
-                    <li>Fill in the quiz title and description</li>
-                    <li>Add questions using the "Add Question" button</li>
-                    <li>For each question, add at least 2 answer options</li>
-                    <li>Mark correct answers by checking the "Correct" box</li>
-                    <li>Set time limits for each question (5-120 seconds)</li>
-                </ol>
-            </div>
-            
             <form id="quizForm" action="/quiz/create" method="POST">
                 <div class="form-group">
                     <label for="title">Quiz Title</label>
@@ -33,14 +22,15 @@
                 
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea id="description" name="description" rows="3" placeholder="Explain what this quiz is about"></textarea>
+                    <textarea id="description" name="description" class="styled-textarea" rows="3" placeholder="Explain what this quiz is about"></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="isPublic">
-                        <input type="checkbox" id="isPublic" name="isPublic" checked>
-                        Make this quiz public (visible to all users)
-                    </label>
+                    <label for="visibility">Quiz Visibility</label>
+                    <select id="visibility" name="visibility" class="styled-select">
+                        <option value="public" selected>Public (visible to all users)</option>
+                        <option value="private">Private (only visible to you)</option>
+                    </select>
                 </div>
                 
                 <h3>Questions</h3>
@@ -48,12 +38,14 @@
                     <!-- Questions will be added here dynamically -->
                 </div>
                 
-                <button type="button" id="addQuestion" class="btn secondary-btn">Add Question</button>
+                <button type="button" id="addQuestion" class="btn add-btn">Add Question</button>
                 
                 <input type="hidden" name="questions" id="questionsJSON">
+                <input type="hidden" name="isPublic" value="true">
                 
+                <!-- Modified form-actions section -->
                 <div class="form-actions">
-                    <a href="/profile" class="btn cancel-btn">Cancel</a>
+                    <a href="/profile" class="cancel-btn">Cancel</a>
                     <button type="submit" id="submitQuiz" class="btn">Create Quiz</button>
                 </div>
             </form>

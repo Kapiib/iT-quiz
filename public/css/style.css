@@ -308,7 +308,7 @@ body {
 
 .dropdown-item:hover {
     background-color: var(--color-option-hover);
-    color: var(--color-primary);
+    color: var (--color-primary);
 }
 
 .dropdown-divider {
@@ -594,7 +594,6 @@ button:hover {
 }
 
 .quiz-card:hover {
-    transform: translateY(-5px);
     box-shadow: 0 5px 15px var(--color-card-shadow);
     border-left: 4px solid var(--color-primary);
 }
@@ -682,37 +681,128 @@ button:hover {
 }
 
 .question-item {
-    background-color: #f5f5f5;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
+    background-color: var(--color-container-bg); /* Dark theme background */
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: 8px;
     position: relative;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
+/* Fix for question remove button X centering */
 .remove-question {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #e74c3c;
+    background-color: var(--color-delete);
     color: white;
     border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
-    text-align: center;
+    border-radius: 4px;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    display: flex;           /* Add flexbox for centering */
+    align-items: center;     /* Center vertically */
+    justify-content: center; /* Center horizontally */
     cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    padding-left: 1px;
+    padding-top: 1px;
+    line-height: 1;          /* Ensure proper vertical alignment */
 }
 
+.remove-question:hover {
+    background-color: var(--color-delete-hover);
+}
+
+/* Style option inputs to match other inputs but slightly smaller */
 .option-item {
     display: flex;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    gap: 10px; /* Consistent spacing between elements */
 }
 
 .option-item input[type="text"] {
     flex-grow: 1;
     margin-right: 10px;
+    padding: 0.6rem; /* Slightly smaller than the default 0.75rem */
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    font-size: 0.95rem; /* Slightly smaller than default 1rem */
+    color: var(--color-text);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    flex-basis: 0; /* Important for consistent sizing */
+}
+
+/* Set a consistent width for all option inputs */
+.option-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    gap: 10px;
+}
+
+.option-item input[type="text"] {
+    flex: 1 1 calc(100% - 80px); /* Fixed shorter width accounting for circle and X */
+    padding: 0.6rem;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: var(--color-text);
+}
+
+/* Fixed widths for the other elements */
+.is-correct-container {
+    flex: 0 0 40px;
+}
+
+.remove-option {
+    flex: 0 0 22px;
+}
+
+.option-item input[type="text"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Style the option remove button to match the question remove button */
+.remove-option {
+    background-color: var(--color-delete);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 23px; /* Slightly smaller */
+    height: 23px; /* Slightly smaller */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 16px; /* Proper size for X */
+    line-height: 1; /* Critical for vertical centering */
+    padding: 0; /* Remove any padding that might affect centering */
+    padding-top: 1px;
+    flex: 0 0 auto; /* Don't allow this to grow or shrink */
+}
+
+.remove-option:hover {
+    background-color: var(--color-delete-hover);
+}
+
+/* Maintain consistent layout with placeholder buttons */
+.remove-option.placeholder-button {
+}
+
+/* Maintain consistent layout with placeholder buttons */
+.remove-option.placeholder-button {
+    visibility: hidden; /* Hidden but still takes up space */
+    pointer-events: none; /* Can't be clicked */
 }
 
 .secondary-btn {
@@ -723,18 +813,10 @@ button:hover {
     background-color: #7f8c8d;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1.5rem;
-}
-
-.cancel-btn {
-    background-color: #95a5a6;
-}
-
-.cancel-btn:hover {
-    background-color: #7f8c8d;
+/* Standalone cancel link container */
+.cancel-link-container {
+    text-align: center;
+    margin-top: 1rem;
 }
 
 /* Profile Quiz Section */
@@ -818,7 +900,6 @@ button:hover {
 
 .edit-btn:hover {
     background-color: var(--color-edit-hover);
-    transform: translateY(-2px);
 }
 
 .delete-btn {
@@ -837,12 +918,10 @@ button:hover {
 
 .delete-btn:hover {
     background-color: var(--color-delete-hover);
-    transform: translateY(-2px);
 }
 
 .view-btn:hover {
     background-color: var(--color-primary-hover);
-    transform: translateY(-2px);
 }
 
 /* Settings Page */
@@ -1164,17 +1243,14 @@ input[type="file"] {
 
 .view-btn:hover {
     background-color: var(--color-primary-hover);
-    transform: translateY(-2px);
 }
 
 .edit-btn:hover {
     background-color: var(--color-edit-hover);
-    transform: translateY(-2px);
 }
 
 .delete-btn:hover {
     background-color: var(--color-delete-hover);
-    transform: translateY(-2px);
 }
 
 /* Quiz Play Interface */
@@ -1322,7 +1398,6 @@ input[type="file"] {
 
 .create-quiz-nav-btn:hover {
     background-color: var(--color-create-hover);
-    transform: translateY(-2px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); 
 }
 
@@ -1701,4 +1776,250 @@ p, span, div,
     height: 3px;
     background-color: var(--color-primary);
     border-radius: 2px;
+}
+
+/* Styled textarea for description */
+.styled-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: var(--color-text);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    resize: none; /* Disable resize handle */
+    min-height: 100px;
+}
+
+.styled-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Styled select for visibility options */
+.styled-select {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    color: var(--color-text);
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%239b59b6' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.7em top 50%;
+    background-size: 1.2em auto;
+    cursor: pointer;
+}
+
+.styled-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+.styled-select option {
+    background-color: var(--color-container-bg);
+    color: var(--color-text);
+    padding: 8px;
+}
+
+/* Kahoot-style circle check for correct answers */
+.is-correct-container {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.is-correct-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.is-correct {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.correct-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--color-input-bg);
+    border: 2px solid var(--color-input-border);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.correct-circle::after {
+    content: "✓";
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.is-correct:checked + .correct-circle {
+    background-color: #27ae60; /* Green for correct */
+    border-color: #27ae60;
+}
+
+.is-correct:checked + .correct-circle::after {
+    opacity: 1;
+}
+
+/* Add hover effect for better UX */
+.correct-circle:hover {
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+}
+
+.option-text {
+    flex: 1; /* Takes all available space */
+}
+
+/* Hide buttons on initial options */
+.hidden-button {
+    visibility: hidden; /* Hidden but preserves layout */
+}
+
+/* Update form actions container */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Style the Cancel button with red danger colors */
+.cancel-btn {
+    background-color: var(--color-delete) !important; /* Red color for cancel/delete action */
+    color: white !important; /* White text for contrast */
+    border: none !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 44px !important;
+    width: 130px !important; /* Fixed width to match submit button */
+    box-sizing: border-box !important;
+}
+
+.cancel-btn:hover {
+    background-color: var(--color-delete-hover) !important; /* Darker red on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit button consistent styling */
+.form-actions button[type="submit"] {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    height: 44px; /* Explicit height to match cancel button */
+    box-sizing: border-box;
+    margin: 0; /* Reset any margins */
+}
+
+.form-actions button[type="submit"]:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* New styles for Add Question and Add Option buttons */
+.add-btn {
+    background-color: var(--color-create) !important;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-btn:hover {
+    background-color: var(--color-create-hover) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Add plus icon styling for create buttons */
+.add-btn::before {
+    content: "+";
+    margin-right: 6px;
+    font-weight: bold;
+}
+
+/* Keep lift effect only for these primary elements */
+.form-actions button[type="submit"]:hover,
+.cancel-btn:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.correct-circle:hover {
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+}
+
+/* Simplified hover for delete X buttons - color change only */
+.remove-question:hover, 
+.remove-option:hover {
+    background-color: var(--color-delete-hover);
+    transform: scale(1.08);
+}
+
+/* Simplified hover for action buttons - color change + subtle shadow */
+.view-btn:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn:hover {
+    background-color: var(--color-edit-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn:hover {
+    background-color: var(--color-delete-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Simplified hover for Add buttons */
+.add-btn:hover {
+    background-color: var(--color-create-hover) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Quiz card hover - keep border but remove lift */
+.quiz-card:hover {
+    box-shadow: 0 5px 15px var(--color-card-shadow);
+    border-left: 4px solid var(--color-primary);
+    transform: translateY(-3px);
 }
