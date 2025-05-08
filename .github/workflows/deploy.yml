@@ -17,12 +17,12 @@ jobs:
 
       - name: Pull Latest Changes
         run: |
-          cd /var/www/iT-Quiz
+          cd /var/www/iT-quiz
           git pull --no-edit origin main
 
       - name: Verify Pull
         run: |
-          cd /var/www/iT-Quiz 
+          cd /var/www/iT-quiz
           git log -1 --oneline 
 
       - name: Set Up Node.js
@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./
-        run: cd /var/www/iT-Quiz && npm install
+        run: cd /var/www/iT-quiz && npm install
 
       - name: Reload With PM2
         run: |
