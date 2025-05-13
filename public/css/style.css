@@ -233,11 +233,12 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--color-navbar-text);
-    font-weight: bold;
+    font-weight: 900;
     cursor: pointer;
     border: 2px solid var(--color-navbar-text);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
+    font-size: 1.3rem;
 }
 
 .profile-pic:hover {
@@ -391,6 +392,23 @@ button:hover {
     100% { box-shadow: 0 0 0 0 rgba(155, 89, 182, 0); }
 }
 
+/* Success message styling */
+.success-message {
+    background-color: rgba(39, 174, 96, 0.2);
+    color: #d5f5e3;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-create);
+    position: relative;
+}
+
+.success-message::before {
+    content: '✓';
+    margin-right: 0.5rem;
+    font-size: 1rem;
+}
+
 /* Profile page */
 .profile-card {
     background-color: var(--color-container-bg);
@@ -429,6 +447,7 @@ button:hover {
 
 .profile-initial {
     font-size: 2.5rem;
+    font-weight: 900;
 }
 
 .profile-title {
@@ -984,10 +1003,12 @@ button:hover {
 }
 
 .settings-info-card {
-    background-color: #f9f9f9;
+    background-color: var(--color-input-bg);
     padding: 1.5rem;
     border-radius: 8px;
     margin-bottom: 2rem;
+    border: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .info-item {
@@ -1000,13 +1021,13 @@ button:hover {
 
 .info-label {
     font-size: 0.85rem;
-    color: #7f8c8d;
+    color: var(--color-quiz-meta);
     margin-bottom: 0.25rem;
 }
 
 .info-value {
     font-size: 1rem;
-    color: #2c3e50;
+    color: var(--color-text);
 }
 
 .danger-zone {
@@ -1060,7 +1081,8 @@ button:hover {
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: bold;
+    font-weight: 900;
+    font-size: 2.5rem;
     overflow: hidden;
 }
 
@@ -1221,11 +1243,6 @@ input[type="file"] {
     font-weight: 600;
 }
 
-.quiz-actions {
-    display: flex;
-    margin-top: 1rem;
-}
-
 .view-btn {
     background-color: var(--color-primary);
     color: white;
@@ -1265,7 +1282,7 @@ input[type="file"] {
 
 .quiz-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--color-border);
 }
@@ -1293,34 +1310,28 @@ input[type="file"] {
     padding: 3rem 1rem;
 }
 
-.quiz-progress, .timer {
-    margin-bottom: 1.5rem;
+#start-screen p {
+    margin-bottom: 2rem; /* Add more space between text and button */
 }
 
-.progress-bar, .timer-bar {
-    height: 8px;
-    background-color: var(--color-timer-bar);
-    border-radius: 4px;
-    margin-top: 0.5rem;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
+#start-quiz {
+    margin-top: 1.5rem; /* Additional spacing above button */
     background-color: var(--color-primary);
-    width: 0;
-    transition: width 0.3s ease;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.timer-fill {
-    height: 100%;
-    background-color: var(--color-timer-fill);
-    width: 100%;
-    transition: width 0.3s linear;
-}
-
-.timer-fill.low-time {
-    background-color: var(--color-delete);
+#start-quiz:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .options-list {
@@ -1351,13 +1362,17 @@ input[type="file"] {
 }
 
 .option.correct {
-    background-color: #d5f5e3;
-    border-color: var(--color-timer-fill);
+    background-color: rgba(46, 204, 113, 0.2); /* Dark theme friendly green */
+    border-color: #2ecc71;
+    color: #2ecc71;
+    font-weight: 600;
 }
 
 .option.incorrect {
-    background-color: #fadbd8;
-    border-color: var(--color-delete);
+    background-color: rgba(231, 76, 60, 0.2); /* Dark theme friendly red */
+    border-color: #e74c3c;
+    color: #e74c3c;
+    font-weight: 600;
 }
 
 .results-summary {
@@ -1398,8 +1413,9 @@ input[type="file"] {
 
 .create-quiz-nav-btn:hover {
     background-color: var(--color-create-hover);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); 
-}
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px); /* Add subtle lift effect */
+}   
 
 .plus-icon {
     font-weight: bold;
@@ -1789,13 +1805,28 @@ p, span, div,
     color: var(--color-text);
     font-family: 'Poppins', 'Segoe UI', sans-serif;
     resize: none; /* Disable resize handle */
-    min-height: 100px;
+    min-height: 150px; /* Reduced from 200px to 150px */
+    line-height: 1.5;
 }
 
-.styled-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+/* Custom scrollbar for textareas */
+.styled-textarea::-webkit-scrollbar {
+    width: 8px;
+}
+
+.styled-textarea::-webkit-scrollbar-track {
+    background: var(--color-input-bg);
+    border-radius: 4px;
+}
+
+.styled-textarea::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+    opacity: 0.7;
+}
+
+.styled-textarea::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-hover);
 }
 
 /* Styled select for visibility options */
@@ -2090,4 +2121,1029 @@ p, span, div,
     background-color: var(--color-delete-hover);
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Settings cards */
+.settings-card {
+    background-color: var(--color-container-bg);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--color-border);
+}
+
+.settings-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+/* Form hint styles */
+.form-hint {
+    font-size: 0.85rem;
+    color: var(--color-quiz-meta);
+    margin-top: 0.4rem;
+}
+
+/* Password strength meter */
+.password-strength-meter {
+    height: 4px;
+    background-color: var(--color-input-border);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.strength-bar.weak {
+    background-color: var(--color-delete);
+}
+
+.strength-bar.medium {
+    background-color: var(--color-edit);
+}
+
+.strength-bar.strong {
+    background-color: var(--color-create);
+}
+
+/* Image requirements text */
+.image-requirements {
+    font-size: 0.8rem;
+    color: var(--color-quiz-meta);
+    margin-top: 0.5rem;
+}
+
+/* Session list styles */
+.session-list {
+    margin-bottom: 1rem;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.session-item.current {
+    border-left: 3px solid var(--color-primary);
+}
+
+.session-device {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.session-meta {
+    font-size: 0.85rem;
+    color: var(--color-quiz-meta);
+}
+
+.session-badge {
+    background-color: var(--color-primary);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+}
+
+/* Theme options */
+.theme-options {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.theme-option {
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.theme-option:hover {
+    opacity: 0.9;
+}
+
+.theme-option.active {
+    opacity: 1;
+}
+
+.theme-preview {
+    width: 120px;
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    border: 2px solid var(--color-border);
+    overflow: hidden;
+    position: relative;
+}
+
+.theme-preview.dark {
+    background-color: #121212;
+}
+
+.theme-preview.dark::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 90px;
+    height: 12px;
+    background-color: #9b59b6;
+    border-radius: 6px;
+}
+
+.theme-preview.dark::before {
+    content: '';
+    position: absolute;
+    top: 37px;
+    left: 15px;
+    width: 70px;
+    height: 8px;
+    background-color: #444;
+    border-radius: 4px;
+}
+
+.theme-preview.light {
+    background-color: #f5f5f5;
+}
+
+.theme-preview.light::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 90px;
+    height: 12px;
+    background-color: #9b59b6;
+    border-radius: 6px;
+}
+
+.theme-preview.light::before {
+    content: '';
+    position: absolute;
+    top: 37px;
+    left: 15px;
+    width: 70px;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+.theme-preview.system {
+    background: linear-gradient(to right, #121212 50%, #f5f5f5 50%);
+}
+
+.theme-preview.system::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: 12px;
+    background-color: #9b59b6;
+    border-radius: 6px;
+}
+
+.theme-preview.system::before {
+    content: '';
+    position: absolute;
+    top: 37px;
+    left: 15px;
+    width: 35px;
+    height: 8px;
+    background-color: #444;
+    border-radius: 4px;
+}
+
+/* Font size slider */
+.slider-container {
+    margin-top: 1rem;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--color-input-border);
+    outline: none;
+    margin-bottom: 0.5rem;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--color-primary-hover);
+}
+
+.slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    background: var(--color-primary-hover);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-quiz-meta);
+    font-size: 0.85rem;
+}
+
+/* Update existing settings-sidebar to have dark theme */
+.settings-sidebar {
+    width: 220px;
+    background-color: var(--color-input-bg);
+    padding: 1.5rem 0;
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.settings-nav-item {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    color: var(--color-text);
+}
+
+.settings-nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-primary);
+}
+
+.settings-nav-item.active {
+    background-color: rgba(155, 89, 182, 0.1);
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
+    font-weight: 500;
+}
+
+/* Improved danger zone */
+.danger-zone {
+    margin-top: 2rem;
+    border: 1px solid var(--color-delete);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+.danger-zone h3 {
+    color: var(--color-delete);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.danger-zone p {
+    margin-bottom: 1rem;
+    color: var(--color-quiz-meta);
+}
+
+/* Logout all devices button */
+.logout-all-btn {
+    margin-top: 1rem;
+}
+
+/* Update file upload button with theme colors */
+.file-upload-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.file-upload-btn:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for linked button */
+.linked-btn {
+    background-color: var(--color-container-bg);
+    color: var(--color-create);
+    border: 1px solid var(--color-create);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Style the profile picture upload section */
+.profile-picture-upload {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-picture-upload form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Hide file inputs but keep them accessible */
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Save button styling */
+.save-btn {
+    background-color: var(--color-create);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.save-btn:hover {
+    background-color: var(--color-create-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile picture upload styling */
+.profile-picture-upload {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.profile-picture-upload form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.profile-bio p {
+    position: relative;
+    margin: 0;
+    padding: 0 0.5rem;
+}
+
+.profile-bio::before
+.profile-bio::after {
+    content: none;
+}
+
+.profile-bio p::before {
+    content: '"';
+    color: var(--color-primary);
+    opacity: 0.8;
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    margin-right: 0.3rem;
+}
+
+.profile-bio p::after {
+    content: '"';
+    color: var(--color-primary);
+    opacity: 0.8;
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    margin-left: 0.3rem;
+}
+
+.profile-bio-container {
+    margin-top: 1rem;
+    position: relative;
+}
+
+.bio-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-bio {
+    color: var(--color-quiz-description);
+    font-style: italic;
+    line-height: 1.4;
+    max-width: 600px;
+    position: relative;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--color-primary);
+    margin-top: 1rem;
+    color: var(--color-quiz-description);
+    line-height: 1.5;
+    max-width: 600px;
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+/* Enhanced Quiz Play Interface */
+.quiz-play-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--color-container-bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-play-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary-hover));
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.quiz-description {
+  color: var(--color-quiz-description);
+  margin: 1rem 0;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* Start screen button */
+#start-quiz {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.8rem 2rem;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#start-quiz:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Better question styling */
+.question-content {
+  text-align: left;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--color-quiz-card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+#question-text {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+  color: var(--color-quiz-header);
+}
+
+.options-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.option {
+  background-color: var(--color-input-bg);
+  border: 2px solid var(--color-input-border);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.option:hover {
+  background-color: var(--color-option-hover);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.option.selected {
+  border-color: var(--color-primary);
+}
+
+.option.correct {
+  background-color: rgba(46, 204, 113, 0.2); /* Dark theme friendly green */
+  border-color: #2ecc71;
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.option.incorrect {
+  background-color: rgba(231, 76, 60, 0.2); /* Dark theme friendly red */
+  border-color: #e74c3c;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Results screen improvements */
+#results-screen {
+  text-align: center;
+  padding: 2rem;
+}
+
+.results-summary {
+  background-color: var(--color-instructions-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.score-display {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--color-quiz-header);
+  margin-bottom: 0.5rem;
+}
+
+.percentage {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-quiz-meta);
+}
+
+#restart-quiz, #results-screen .btn {
+  margin: 0.5rem;
+  min-width: 120px;
+}
+
+/* Add animation for transitions */
+.quiz-screen {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: none;
+}
+
+.quiz-screen.active {
+  display: block;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* For smaller screens - responsive design */
+@media (max-width: 768px) {
+  .options-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-play-container {
+    padding: 1.5rem;
+  }
+}
+
+.progress-text span:first-child,
+.timer-text span:first-child, 
+.progress-text .question-count,
+.timer-text .time-value {
+  position: static;
+  transform: none;
+  margin: 0;
+}
+
+/* Create consistent spacing between elements */
+.progress-text span,
+.timer-text span {
+  margin: 0 2px;
+}
+
+/* Add left and right empty spans to maintain proper centering */
+.progress-text::before,
+.progress-text::after,
+.timer-text::before,
+.timer-text::after {
+  content: none;
+}
+
+/* Make sure the text stays centered */
+.progress-text > span,
+.timer-text > span {
+  flex: 0;
+  white-space: nowrap;
+}
+
+/* Position the first label (Question:/Time left:) on the left */
+.progress-text span:first-child,
+.timer-text span:first-child {
+  flex: 1;
+  text-align: left;
+  margin-right: auto;
+}
+
+/* Center the actual values (1 of X / 30 s) */
+.progress-text span:not(:first-child),
+.timer-text span:not(:first-child) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* Remove previously added pseudo-elements that were causing spacing issues */
+.progress-text::before,
+.progress-text::after,
+.timer-text::before,
+.timer-text::after {
+  content: none;
+}
+
+/* Ensure consistent spacing */
+.progress-text span,
+.timer-text span {
+  margin: 0 2px;
+}
+
+/* Position the labels on the left side */
+.progress-text span:first-child,
+	timer-text span:first-child {
+  position: absolute;
+  left: 0;
+  text-align: left;
+}
+
+/* Center the value and unit spans */
+.progress-text span:nth-child(2),
+.progress-text span:nth-child(3),
+	timer-text span:nth-child(2),
+	timer-text span:nth-child(3) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+/* Adjust spacing for the "of X" and "s" */
+.progress-text span:nth-child(3),
+	timer-text span:nth-child(3) {
+  margin-left: 21px; /* Push slightly right of center */
+}
+
+/* Completely redesigned quiz timer and progress display */
+.quiz-progress, .timer {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Create a simple and clean three-column layout */
+.center-values {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Position the question/timer labels as simple headings */
+.progress-text, .timer-text {
+  font-weight: 500;
+  color: var(--color-quiz-meta);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* Better looking progress bars */
+.progress-bar, .timer-bar {
+  height: 8px;
+  background-color: var(--color-input-bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.timer-fill {
+  height: 100%;
+  background-color: var(--color-timer-fill, #2ecc71);
+  border-radius: 4px;
+  width: 100%;
+  transition: width 0.1s linear;
+}
+
+.timer-fill.low-time {
+  background-color: var(--color-delete, #e74c3c);
+}
+
+/* Hide quiz info once quiz has started */
+.quiz-screen.active ~ .quiz-header {
+  display: none;
+}
+
+/* Hide quiz info once quiz has started, but keep minimal title */
+.quiz-screen.active ~ .quiz-header {
+  display: none; /* Hide the full header by default */
+}
+
+.quiz-screen.active ~ .quiz-header-mini {
+  display: block; /* Show the mini header instead */
+}
+
+/* NEW APPROACH: Use classes on the container instead of sibling selectors */
+/* Default state: header visible */
+.quiz-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* This class gets added via JavaScript when quiz starts */
+.quiz-playing .quiz-header {
+  display: none;
+}
+
+/* Hide mini header as well when playing */
+.quiz-playing .quiz-header-mini {
+  display: none; /* Changed from block to none */
+}
+
+/* Also update the sibling selector version for consistency */
+.quiz-screen.active ~ .quiz-header-mini {
+  display: none; /* Changed from block to none */
+}
+
+/* This class gets added via JavaScript when quiz starts */
+.quiz-playing .quiz-header {
+  display: none;
+}
+
+.quiz-header-mini {
+  display: none; /* Hidden by default */
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.quiz-header-mini h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--color-quiz-header);
+  opacity: 0.8;
+}
+
+#question-screen .quiz-description, 
+#question-screen .quiz-meta,
+#results-screen .quiz-description,
+#results-screen .quiz-meta {
+  display: none; /* Always hide description and creator info when in question/results screens */
+}
+
+#question-screen .quiz-header, 
+#results-screen .quiz-header {
+  display: none;
+}
+
+/* Hide quiz info in both question and results screens */
+#question-screen .quiz-header,
+#question-screen .quiz-header-mini,
+#results-screen .quiz-header,
+#results-screen .quiz-header-mini {
+  display: none;
+}
+
+/* Hide meta information in both question and results screens */
+#question-screen .quiz-description, 
+#question-screen .quiz-meta,
+#results-screen .quiz-description,
+#results-screen .quiz-meta {
+  display: none;
+}
+
+/* Make sure the quiz playing class properly hides all header elements */
+.quiz-playing .quiz-header,
+.quiz-playing .quiz-header-mini {
+  display: none;
+}
+
+/* Redesigned Quiz Results Screen */
+#results-screen {
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+#results-screen h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+#results-screen h2::after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary-hover));
+  bottom: -8px;
+  left: 10%;
+  border-radius: 2px;
+}
+
+.results-summary {
+  background-color: var(--color-instructions-bg);
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin: 2.5rem 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.results-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(to right, var(--color-primary), var(--color-create));
+}
+
+.score-display {
+  margin-bottom: 1.5rem;
+}
+
+.score {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(155, 89, 182, 0.4);
+}
+
+.percentage {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+/* Results actions container */
+.results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Try Again button styling */
+#restart-quiz {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
+#restart-quiz:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(155, 89, 182, 0.4);
+}
+
+/* Back to Home button styling */
+.home-btn {
+  background-color: transparent;
+  color: var(--color-text);
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Performance indicator based on score */
+.performance-indicator {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  display: inline-block;
+}
+
+.high-score {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #2ecc71;
+}
+
+.mid-score {
+  background-color: rgba(243, 156, 18, 0.15);
+  color: #f39c12;  
+}
+
+.low-score {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
 }

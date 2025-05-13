@@ -27,6 +27,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// Static files middleware - ensure this is set up correctly
 app.use(express.static(path.join(__dirname, 'public')));
 
 // View engine setup
@@ -50,6 +51,9 @@ app.use('/security/reset', passwordResetRoutes); // Changed from '/password-rese
 
 // Keep only POST routes in quizRoutes.js
 app.use('/quiz', require('./routes/quizRoutes')); 
+
+// Add this line after your other app.use statements
+app.use('/settings', require('./routes/settingsRoutes'));
 
 // Handle all errors including 404s in one place
 app.use((req, res, next) => {

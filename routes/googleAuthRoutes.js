@@ -63,24 +63,20 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
     
-    // Create JWT
-    const token = jwt.sign(
-      { 
-        id: user._id,
-        name: user.name,  // Add these fields to match your other auth flows
-        email: user.email,
-        role: user.role 
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    // Create JWT - add profilePic to the payload
+    const token = createToken({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      profilePic: user.profilePic, // Add this line to include profilePic
+      createdAt: user.createdAt
+    });
     
     // Set cookie and redirect
-    res.cookie('token', token, { 
+    res.cookie('token', token, {
       httpOnly: true,
-      secure: false, // Set to false for HTTP, true for HTTPS
-      sameSite: 'lax', // Add this for better compatibility
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
     
     console.log(`User authenticated via Google: ${user.name} (${user.email})`);

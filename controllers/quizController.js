@@ -5,11 +5,21 @@ const quizController = {
     // Get all public quizzes for the homepage
     getAllQuizzes: async (req, res) => {
         try {
+            // Use a left join with lookup to handle missing creators
             const quizzes = await Quiz.find({ isPublic: true })
                 .populate('creator', 'name')
                 .sort({ createdAt: -1 });
-                
-            return quizzes;
+            
+            // Filter out quizzes with missing creators and fix those that remain
+            const filteredQuizzes = quizzes.map(quiz => {
+                if (!quiz.creator) {
+                    // Set a default creator for quizzes with deleted creators
+                    quiz.creator = { name: "Deleted User" };
+                }
+                return quiz;
+            });
+            
+            return filteredQuizzes;
         } catch (error) {
             console.error('Error fetching quizzes:', error);
             return [];

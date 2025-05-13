@@ -25,7 +25,11 @@
             <div class="profile-pic-container">
                 <div class="profile-pic" title="<%= user && user.name ? user.name + '\'s Profile' : 'Profile' %>">
                     <% if (user && user.profilePic) { %>
-                        <img src="<%= user.profilePic %>" alt="<%= user.name %>">
+                        <% if (user.profilePic.startsWith('http')) { %>
+                            <img src="<%= user.profilePic %>?t=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                        <% } else { %>
+                            <img src="/<%= user.profilePic %>?t=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                        <% } %>
                     <% } else if (user && user.name) { %>
                         <%= user.name.charAt(0).toUpperCase() %>
                     <% } else { %>

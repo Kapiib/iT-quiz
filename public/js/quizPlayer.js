@@ -2,6 +2,9 @@
 const quizDataElement = document.getElementById('quiz-data');
 const quizData = JSON.parse(decodeURIComponent(quizDataElement.dataset.quiz));
 
+// Add a new variable at the top of your file with other variables
+let questionAnswered = false;
+
 document.addEventListener('DOMContentLoaded', function() {
     // Quiz state variables
     let currentQuestionIndex = 0;
@@ -38,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function() {
         startScreen.classList.remove('active');
         resultsScreen.classList.remove('active');
         questionScreen.classList.add('active');
+        
+        // Add this line to toggle header visibility
+        document.querySelector('.quiz-play-container').classList.add('quiz-playing');
         
         // Load first question
         loadQuestion(currentQuestionIndex);
@@ -102,8 +108,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
     
-    // Handle option selection
+    // Update the selectOption function to prevent multiple selections
     function selectOption(optionIndex) {
+        // Prevent multiple selections for the same question
+        if (questionAnswered) {
+            return;
+        }
+        
+        // Mark question as answered
+        questionAnswered = true;
+        
         clearInterval(timer);
         
         const question = quizData.questions[currentQuestionIndex];
@@ -113,6 +127,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const optionElements = optionsList.querySelectorAll('.option');
         
         optionElements.forEach((element, index) => {
+            // Disable all options to prevent further clicking
+            element.style.pointerEvents = 'none';
+            
             if (index === optionIndex) {
                 element.classList.add('selected');
             }
@@ -133,9 +150,10 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(moveToNextQuestion, 1500);
     }
     
-    // Move to the next question or end quiz
+    // Also update the moveToNextQuestion function to reset the flag
     function moveToNextQuestion() {
         currentQuestionIndex++;
+        questionAnswered = false; // Reset for the next question
         
         if (currentQuestionIndex < quizData.questions.length) {
             loadQuestion(currentQuestionIndex);
@@ -151,16 +169,32 @@ document.addEventListener('DOMContentLoaded', function() {
         progressFill.style.width = `${percentage}%`;
     }
     
-    // End the quiz and show results
+    // Add this to your endQuiz function in quizPlayer.js
     function endQuiz() {
         // Hide question screen, show results
         questionScreen.classList.remove('active');
         resultsScreen.classList.add('active');
         
+        // Remove this class when showing results
+        document.querySelector('.quiz-play-container').classList.remove('quiz-playing');
+        
         // Update score displays
         finalScoreDisplay.textContent = score;
         const percentage = Math.round((score / quizData.questions.length) * 100);
         scorePercentDisplay.textContent = percentage;
+        
+        // Show performance message based on score
+        const performanceMessage = document.getElementById('performance-message');
+        if (percentage >= 80) {
+            performanceMessage.textContent = "Excellent! You're a quiz master!";
+            performanceMessage.className = "performance-indicator high-score";
+        } else if (percentage >= 50) {
+            performanceMessage.textContent = "Good job! Keep practicing!";
+            performanceMessage.className = "performance-indicator mid-score";
+        } else {
+            performanceMessage.textContent = "You can do better! Try again?";
+            performanceMessage.className = "performance-indicator low-score";
+        }
         
         // Clear any running timer
         if (timer) clearInterval(timer);

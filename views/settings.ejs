@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('partials/head') %>
+<body>
+    <%- include('partials/navbar') %>
+
+    <div class="container">
+        <h1 class="title">Account Settings</h1>
+        
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message">
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <% if (typeof success !== 'undefined' && success) { %>
+            <div class="success-message">
+                <%= success %>
+            </div>
+        <% } %>
+        
+        <div class="settings-container">
+            <!-- Sidebar Navigation -->
+            <div class="settings-sidebar">
+                <ul class="settings-nav">
+                    <li class="settings-nav-item active" data-target="profile">Profile</li>
+                    <li class="settings-nav-item" data-target="security">Security</li>
+                    <li class="settings-nav-item" data-target="account">Account</li>
+                </ul>
+            </div>
+            
+            <!-- Main Content Area -->
+            <div class="settings-content">
+                <!-- Profile Section -->
+                <div id="profile" class="settings-section active">
+                    <h2>Profile Information</h2>
+                    
+                    <form class="settings-form" action="/settings/profile" method="POST" enctype="multipart/form-data">
+                        <div class="settings-info-card">
+                            <div class="profile-picture-upload">
+                                <div class="current-picture">
+                                    <% if (user.profilePic) { %>
+                                        <% if (user.profilePic.startsWith('http')) { %>
+                                            <img src="<%= user.profilePic %>?t=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                                        <% } else { %>
+                                            <img src="/<%= user.profilePic %>?t=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                                        <% } %>
+                                    <% } else { %>
+                                        <%= user.name.charAt(0).toUpperCase() %>
+                                    <% } %>
+                                </div>
+                                <div>
+                                    <label for="profile-pic" class="file-upload-btn">Choose Image</label>
+                                    <input type="file" id="profile-pic" name="profilePic" accept="image/*">
+                                    <div class="image-requirements">
+                                        <small>Recommended: Square JPG, PNG (max 2MB)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rest of the form fields -->
+                        <input type="hidden" id="profile-pic-changed" name="profile-pic-changed" value="false">
+
+                        <div class="form-group">
+                            <label for="name">Display Name</label>
+                            <input type="text" id="name" name="name" value="<%= user.name %>" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" value="<%= user.email %>" required>
+                            <div class="form-hint">You'll need to verify your email if you change it</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" name="bio" class="styled-textarea" rows="3"><%= user.bio || '' %></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn save-btn">Save Changes</button>
+                    </form>
+                </div>
+                
+                <!-- Security Section -->
+                <div id="security" class="settings-section">
+                    <h2>Security Settings</h2>
+                    
+                    <div class="settings-card">
+                        <h3>Change Password</h3>
+                        <form class="settings-form" action="/settings/password" method="POST">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="currentPassword" name="currentPassword" required>
+                                    <span class="password-toggle" title="Show password"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                                    <span class="password-toggle" title="Show password"></span>
+                                </div>
+                                <div class="password-strength-meter">
+                                    <div class="strength-bar"></div>
+                                </div>
+                                <div class="form-hint">Password must be at least 6 characters</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <div class="password-field">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+                                    <span class="password-toggle" title="Show password"></span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn save-btn">Update Password</button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3>Login Sessions</h3>
+                        <div class="session-list">
+                            <div class="session-item current">
+                                <div class="session-info">
+                                    <div class="session-device">Current Session</div>
+                                    <div class="session-meta">Started <%= new Date().toLocaleDateString() %></div>
+                                </div>
+                                <span class="session-badge">Current</span>
+                            </div>
+                        </div>
+                        <button class="btn danger-btn logout-all-btn">Log Out All Devices</button>
+                    </div>
+                </div>
+                
+                <!-- Account Section -->
+                <div id="account" class="settings-section">
+                    <h2>Account Management</h2>
+                    
+                    <div class="settings-card">
+                        <h3>Linked Accounts</h3>
+                        <div class="linked-accounts">
+                            <div class="linked-account-item">
+                                <div class="linked-account-info">
+                                    <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google">
+                                    <span>Google</span>
+                                </div>
+                                <% if (user.googleId) { %>
+                                    <button disabled class="btn linked-btn">Linked</button>
+                                <% } else { %>
+                                    <a href="/auth/google" class="btn link-btn">Link</a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="danger-zone">
+                        <h3>Danger Zone</h3>
+                        <p>Once you delete your account, there is no going back. Please be certain.</p>
+                        <button class="btn danger-btn" id="deleteAccountBtn">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Account Confirmation Modal -->
+    <div id="delete-account-modal" class="modal">
+        <div class="modal-content">
+            <h2>Delete Account</h2>
+            <p>Are you sure you want to delete your account? This action cannot be undone and all your quizzes will be permanently deleted.</p>
+            <div class="modal-actions">
+                <button id="cancel-delete-account" class="btn">Cancel</button>
+                <a id="confirm-delete-account" href="/settings/delete-account" class="btn delete-btn">Delete Account</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/passwordToggle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const navItems = document.querySelectorAll('.settings-nav-item');
+            const sections = document.querySelectorAll('.settings-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    navItems.forEach(i => i.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                    
+                    // Show the corresponding section
+                    const targetSection = document.getElementById(item.getAttribute('data-target'));
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+            
+            // Password strength meter
+            const passwordInput = document.getElementById('newPassword');
+            const strengthBar = document.querySelector('.strength-bar');
+            
+            if (passwordInput && strengthBar) {
+                passwordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    let strength = 0;
+                    
+                    // Calculate strength
+                    if (password.length >= 8) strength += 1;
+                    if (password.match(/[A-Z]/)) strength += 1;
+                    if (password.match(/[0-9]/)) strength += 1;
+                    if (password.match(/[^A-Za-z0-9]/)) strength += 1;
+                    
+                    // Update the strength bar
+                    strengthBar.className = 'strength-bar';
+                    strengthBar.style.width = (strength * 25) + '%';
+                    
+                    if (strength < 2) {
+                        strengthBar.classList.add('weak');
+                    } else if (strength < 4) {
+                        strengthBar.classList.add('medium');
+                    } else {
+                        strengthBar.classList.add('strong');
+                    }
+                });
+            }
+            
+            // Delete account modal
+            const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+            const deleteAccountModal = document.getElementById('delete-account-modal');
+            const cancelDeleteAccount = document.getElementById('cancel-delete-account');
+            
+            if (deleteAccountBtn && deleteAccountModal) {
+                deleteAccountBtn.addEventListener('click', function() {
+                    deleteAccountModal.style.display = 'flex';
+                });
+                
+                cancelDeleteAccount.addEventListener('click', function() {
+                    deleteAccountModal.style.display = 'none';
+                });
+                
+                window.addEventListener('click', function(event) {
+                    if (event.target === deleteAccountModal) {
+                        deleteAccountModal.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- Add this JavaScript before the closing body tag -->
+    <script>
+        // Handle profile picture preview
+        const fileInput = document.getElementById('profile-pic');
+        const currentPicture = document.querySelector('.current-picture');
+        const profilePicChanged = document.getElementById('profile-pic-changed');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                // Mark the profile pic as changed so the backend knows to process it
+                profilePicChanged.value = 'true';
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Check if there's already an image in the container
+                    let img = currentPicture.querySelector('img');
+                    if (!img) {
+                        // If there's no image, create one and replace the letter
+                        currentPicture.innerHTML = '';
+                        img = document.createElement('img');
+                        currentPicture.appendChild(img);
+                    }
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>

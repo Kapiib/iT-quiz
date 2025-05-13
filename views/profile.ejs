@@ -9,7 +9,11 @@
             <div class="profile-header">
                 <div class="profile-avatar">
                     <% if (user.profilePic) { %>
-                        <img src="<%= user.profilePic %>" alt="<%= user.name %>">
+                        <% if (user.profilePic.startsWith('http')) { %>
+                            <img src="<%= user.profilePic %>?v=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                        <% } else { %>
+                            <img src="/<%= user.profilePic %>?v=<%= new Date().getTime() %>" alt="<%= user.name %>">
+                        <% } %>
                     <% } else { %>
                         <div class="profile-initial"><%= user.name.charAt(0).toUpperCase() %></div>
                     <% } %>
@@ -17,6 +21,12 @@
                 <div class="profile-title">
                     <h1><%= user.name %>'s Profile</h1>
                     <span class="role-badge <%= user.role %>"><%= user.role.charAt(0).toUpperCase() + user.role.slice(1) %></span>
+                    
+                    <% if (user.bio && user.bio.trim().length > 0) { %>
+                        <div class="profile-bio">
+                            <p><%= user.bio %></p>
+                        </div>
+                    <% } %>
                 </div>
             </div>
         </div>

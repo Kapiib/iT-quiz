@@ -12,6 +12,10 @@
                 <p class="quiz-meta">Created by: <%= quiz.creator.name %> | Questions: <%= quiz.questions.length %></p>
             </div>
             
+            <div class="quiz-header-mini">
+                <h2><%= quiz.title %></h2>
+            </div>
+            
             <div id="quiz-play-area">
                 <!-- Initial screen -->
                 <div id="start-screen" class="quiz-screen active">
@@ -23,14 +27,25 @@
                 <!-- Question screen (hidden initially) -->
                 <div id="question-screen" class="quiz-screen">
                     <div class="quiz-progress">
-                        <div class="progress-text">Question <span id="current-question">1</span> of <%= quiz.questions.length %></div>
+                        <div class="progress-text">Question:</div>
+                        <div class="center-values">
+                            <span id="current-question">1</span>
+                            <span>of</span>
+                            <span><%= quiz.questions.length %></span>
+                        </div>
+                        <span class="empty-column"></span>
                         <div class="progress-bar">
                             <div class="progress-fill"></div>
                         </div>
                     </div>
                     
                     <div class="timer">
-                        <div class="timer-text">Time left: <span id="time-remaining">30</span>s</div>
+                        <div class="timer-text">Time left:</div>
+                        <div class="center-values">
+                            <span id="time-remaining" class="time-value">30</span>
+                            <span>s</span>
+                        </div>
+                        <span class="empty-column"></span>
                         <div class="timer-bar">
                             <div class="timer-fill"></div>
                         </div>
@@ -50,9 +65,12 @@
                             <div class="score">Your score: <span id="final-score">0</span>/<span id="total-questions"><%= quiz.questions.length %></span></div>
                             <div class="percentage">(<span id="score-percent">0</span>%)</div>
                         </div>
+                        <div id="performance-message" class="performance-indicator"></div>
                     </div>
-                    <button id="restart-quiz" class="btn">Try Again</button>
-                    <a href="/" class="btn secondary-btn">Back to Home</a>
+                    <div class="results-actions">
+                        <button id="restart-quiz">Try Again</button>
+                        <a href="/" class="home-btn">Back to Home</a>
+                    </div>
                 </div>
             </div>
         </div>

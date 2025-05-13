@@ -42,7 +42,7 @@ router.get('/quiz/:id', quizController.getQuiz);  // This must come after other 
 // Settings page (protected)
 router.get('/settings', checkAuth, (req, res) => {
     res.render('settings', { 
-        title: 'Settings',
+        title: 'Account Settings',
         user: req.user
     });
 });

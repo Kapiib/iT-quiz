@@ -158,10 +158,10 @@ const handleSuccessfulAuth = async (user, res) => {
     // Create JWT payload
     const payload = {
         id: user._id,
-        userId: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
+        profilePic: user.profilePic, // Add this line to include profilePic
         createdAt: user.createdAt
     };
     
