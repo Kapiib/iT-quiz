@@ -178,6 +178,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove this class when showing results
         document.querySelector('.quiz-play-container').classList.remove('quiz-playing');
         
+        // Add quiz-complete class to body for comprehensive hiding of headers
+        document.body.classList.add('quiz-complete');
+        
         // Update score displays
         finalScoreDisplay.textContent = score;
         const percentage = Math.round((score / quizData.questions.length) * 100);

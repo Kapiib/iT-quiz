@@ -3147,3 +3147,90 @@ input[type="file"] {
   background-color: rgba(231, 76, 60, 0.15);
   color: #e74c3c;
 }
+
+/* Updated rules to ensure quiz header info is hidden on results screen */
+body.quiz-complete .quiz-header,
+.quiz-screen.active#results-screen ~ .quiz-header,
+#results-screen .quiz-header,
+.quiz-play-container:has(#results-screen.active) .quiz-header {
+  display: none !important;
+}
+
+/* Hide quiz description and meta information on results screen */
+body.quiz-complete .quiz-description,
+body.quiz-complete .quiz-meta,
+.quiz-screen.active#results-screen ~ .quiz-description,
+.quiz-screen.active#results-screen ~ .quiz-meta,
+#results-screen .quiz-description,
+#results-screen .quiz-meta,
+.quiz-play-container:has(#results-screen.active) .quiz-description,
+.quiz-play-container:has(#results-screen.active) .quiz-meta {
+  display: none !important;
+}
+
+/* Hide mini header completely on results screen */
+body.quiz-complete .quiz-header-mini,
+.quiz-screen.active#results-screen ~ .quiz-header-mini,
+#results-screen .quiz-header-mini,
+.quiz-play-container:has(#results-screen.active) .quiz-header-mini {
+  display: none !important;
+}
+
+/* Updated Hero Buttons with consistent hover effects */
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.hero-buttons a {
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: none;
+}
+
+.hero-buttons .primary-btn {
+  background-color: var(--color-primary);
+  color: white;
+  border: 2px solid var(--color-primary);
+}
+
+.hero-buttons .primary-btn:hover {
+  background-color: var(--color-primary-hover);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
+}
+
+.hero-buttons .secondary-btn {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.hero-buttons .secondary-btn:hover {
+  background-color: rgba(155, 89, 182, 0.1);
+  color: var(--color-primary);
+  transform: translateY(-3px);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero-buttons a {
+    width: 100%;
+    max-width: 250px;
+  }
+}
