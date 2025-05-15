@@ -3,10 +3,17 @@ const User = require('../models/User');
 
 const quizController = {
     // Get all public quizzes for the homepage
-    getAllQuizzes: async (req, res) => {
+    getAllQuizzes: async (categoryFilter = null) => {
         try {
+            const filter = { isPublic: true };
+            
+            // Apply category filter if provided
+            if (categoryFilter && categoryFilter !== 'all') {
+                filter.category = categoryFilter;
+            }
+            
             // Use a left join with lookup to handle missing creators
-            const quizzes = await Quiz.find({ isPublic: true })
+            const quizzes = await Quiz.find(filter)
                 .populate('creator', 'name')
                 .sort({ createdAt: -1 });
             
@@ -70,14 +77,15 @@ const quizController = {
     // Create a new quiz
     createQuiz: async (req, res) => {
         try {
-            const { title, description, questions, isPublic } = req.body;
+            const { title, description, questions, isPublic, category } = req.body;
             
             const newQuiz = new Quiz({
                 title,
                 description,
+                category: category || 'general', // Use provided category or default to general
                 creator: req.user.id,
                 questions: JSON.parse(questions),
-                isPublic: isPublic === 'true' || isPublic === 'public'  // Check for both possible values
+                isPublic: isPublic === 'true' || isPublic === 'public'
             });
             
             await newQuiz.save();
@@ -88,7 +96,7 @@ const quizController = {
                 title: 'Create Quiz',
                 error: 'Failed to create quiz',
                 formData: req.body,
-                user: req.user || null  // Add this line
+                user: req.user || null
             });
         }
     },
@@ -162,14 +170,14 @@ const quizController = {
     // Update an existing quiz
     updateQuiz: async (req, res) => {
         try {
-            const { title, description, questions, isPublic } = req.body;
+            const { title, description, questions, isPublic, category } = req.body;
             const quiz = await Quiz.findById(req.params.id);
             
             if (!quiz) {
                 return res.status(404).render('error', {
                     title: 'Quiz Not Found',
                     message: 'The quiz you are trying to update does not exist',
-                    user: req.user || null  // Add this line
+                    user: req.user || null
                 });
             }
             
@@ -178,14 +186,15 @@ const quizController = {
                 return res.status(403).render('error', {
                     title: 'Access Denied',
                     message: 'You can only update quizzes you created',
-                    user: req.user || null  // Add this line
+                    user: req.user || null
                 });
             }
             
             quiz.title = title;
             quiz.description = description;
+            quiz.category = category || 'general';
             quiz.questions = JSON.parse(questions);
-            quiz.isPublic = isPublic === 'true' || isPublic === 'public';  // Check for both possible values
+            quiz.isPublic = isPublic === 'true' || isPublic === 'public';
             
             await quiz.save();
             res.redirect('/profile');
@@ -195,7 +204,7 @@ const quizController = {
                 title: 'Edit Quiz',
                 error: 'Failed to update quiz',
                 quiz: { ...req.body, _id: req.params.id },
-                user: req.user || null  // Add this line
+                user: req.user || null
             });
         }
     },

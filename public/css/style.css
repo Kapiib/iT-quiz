@@ -602,73 +602,112 @@ button:hover {
     margin-top: 2rem;
 }
 
+/* Improved Quiz Card Styling with Box Category */
 .quiz-card {
-    position: relative;
-    background-color: var(--color-quiz-card-bg);
-    border-radius: 8px;
-    box-shadow: 0 3px 10px var(--color-card-shadow);
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-    border-left: 4px solid transparent;
+  position: relative;
+  background-color: var(--color-quiz-card-bg);
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
 }
 
+/* Hover effect with lift and shadow enhancement - no underline */
 .quiz-card:hover {
-    box-shadow: 0 5px 15px var(--color-card-shadow);
-    border-left: 4px solid var(--color-primary);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-primary);
 }
 
+/* Remove bottom border animation completely */
 .quiz-card::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-primary);
-    transition: width 0.3s ease;
-    border-radius: 0 0 0 8px;
+  content: none;
 }
 
-.quiz-card:hover::before {
-    width: 100%;
+/* Category as box in top-right corner */
+.quiz-card::after {
+  content: attr(data-category);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 2;
 }
 
+/* Category-specific colors */
+.quiz-card[data-category="programming"]::after { background-color: #3498db; }
+.quiz-card[data-category="databases"]::after { background-color: #e74c3c; }
+.quiz-card[data-category="networking"]::after { background-color: #2ecc71; }
+.quiz-card[data-category="security"]::after { background-color: #f39c12; }
+.quiz-card[data-category="webdev"]::after { background-color: #9b59b6; }
+.quiz-card[data-category="os"]::after { background-color: #1abc9c; }
+.quiz-card[data-category="general"]::after { background-color: #34495e; }
+
+/* Card content styling */
 .quiz-card h3 {
-    margin-bottom: 0.5rem;
-    color: var(--color-quiz-header);
-    font-size: 1.3rem;
-    font-weight: 600;
+  margin: 0.5rem 0 0.75rem 0;
+  color: var(--color-quiz-header);
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(155, 89, 182, 0.2);
+  margin-top: 0.5rem;
 }
 
 .quiz-card p {
-    color: var(--color-quiz-description);
-    margin-bottom: 1rem;
+  color: var(--color-quiz-description);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  flex-grow: 1;
 }
 
+/* Better meta info styling */
 .quiz-meta {
-    display: flex;
-    gap: 1rem;
-    justify-content: space-between;
-    margin: 1rem 0;
-    font-size: 0.9rem;
-    color: var(--color-quiz-meta);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  color: var(--color-quiz-meta);
 }
 
+/* Hide duplicate category in meta section since we have the ribbon */
+.quiz-meta span.category-name {
+  display: none;
+}
+
+/* Take Quiz button styling */
 .quiz-btn {
-    display: block;
-    text-align: center;
-    margin-top: 1rem;
-    background-color: var(--color-primary);
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    font-weight: 600;
+  display: block;
+  text-align: center;
+  background-color: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  padding: 0.7rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  margin-top: auto;
 }
 
 .quiz-btn:hover {
-    background-color: var(--color-primary-hover);
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.3);
 }
 
 .no-quizzes {
@@ -2793,7 +2832,7 @@ input[type="file"] {
 
 /* Position the first label (Question:/Time left:) on the left */
 .progress-text span:first-child,
-.timer-text span:first-child {
+	timer-text span:first-child {
   flex: 1;
   text-align: left;
   margin-right: auto;
@@ -2801,7 +2840,7 @@ input[type="file"] {
 
 /* Center the actual values (1 of X / 30 s) */
 .progress-text span:not(:first-child),
-.timer-text span:not(:first-child) {
+	timer-text span:not(:first-child) {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -2812,13 +2851,13 @@ input[type="file"] {
 .progress-text::before,
 .progress-text::after,
 .timer-text::before,
-.timer-text::after {
+	timer-text::after {
   content: none;
 }
 
 /* Ensure consistent spacing */
 .progress-text span,
-.timer-text span {
+	timer-text span {
   margin: 0 2px;
 }
 
@@ -2832,7 +2871,7 @@ input[type="file"] {
 
 /* Center the value and unit spans */
 .progress-text span:nth-child(2),
-.progress-text span:nth-child(3),
+	progress-text span:nth-child(3),
 	timer-text span:nth-child(2),
 	timer-text span:nth-child(3) {
   position: absolute;

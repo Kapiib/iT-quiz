@@ -26,6 +26,19 @@
                 </div>
                 
                 <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" class="styled-select">
+                        <option value="general" <%= quiz.category === 'general' ? 'selected' : '' %>>General</option>
+                        <option value="programming" <%= quiz.category === 'programming' ? 'selected' : '' %>>Programming</option>
+                        <option value="databases" <%= quiz.category === 'databases' ? 'selected' : '' %>>Databases</option>
+                        <option value="networking" <%= quiz.category === 'networking' ? 'selected' : '' %>>Networking</option>
+                        <option value="security" <%= quiz.category === 'security' ? 'selected' : '' %>>Security</option>
+                        <option value="webdev" <%= quiz.category === 'webdev' ? 'selected' : '' %>>Web Development</option>
+                        <option value="os" <%= quiz.category === 'os' ? 'selected' : '' %>>Operating Systems</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
                     <label for="visibility">Quiz Visibility</label>
                     <select id="visibility" name="visibility" class="styled-select">
                         <option value="public" <%= quiz.isPublic ? 'selected' : '' %>>Public (visible to all users)</option>

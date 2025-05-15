@@ -64,10 +64,11 @@ router.get("/auth/login", redirectIfAuthenticated, (req, res) => {
 
 router.get("/auth/logout", authController.logout);
 
-// Add this route after your other routes
+// Update the quizzes route
 router.get('/quizzes', async (req, res) => {
     try {
-        const quizzes = await quizController.getAllQuizzes();
+        // Pass the category from query params if it exists
+        const quizzes = await quizController.getAllQuizzes(req.query.category);
         res.render('quizzes', {
             title: 'All Quizzes',
             quizzes: quizzes,

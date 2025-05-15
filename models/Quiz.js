@@ -25,6 +25,11 @@ const quizSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    category: {
+        type: String,
+        default: 'general',
+        enum: ['programming', 'databases', 'networking', 'security', 'webdev', 'os', 'general']
+    },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
