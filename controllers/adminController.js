@@ -119,8 +119,7 @@ exports.getQuizzes = async (req, res) => {
   try {
     const quizzes = await Quiz.find()
       .populate('creator', 'name')
-      .sort({ createdAt: -1 })
-      .limit(20);
+      .sort({ createdAt: -1 });
     
     res.render('admin/quizzes', {
       title: 'Quiz Management',

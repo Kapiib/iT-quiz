@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="title">Quiz Management</h1>
+            <div class="admin-actions">
+            </div>
+        </div>
+
+        <div class="admin-controls-bar">
+            <div class="search-container">
+                <input type="text" id="quizSearch" placeholder="Search quizzes..." class="admin-search">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            <div class="filter-container">
+                <select id="categoryFilter" class="admin-filter">
+                    <option value="all">All Categories</option>
+                    <option value="programming">Programming</option>
+                    <option value="databases">Databases</option>
+                    <option value="networking">Networking</option>
+                    <option value="security">Security</option>
+                    <option value="webdev">Web Development</option>
+                    <option value="os">Operating Systems</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Questions</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th>Visibility</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="quizzesTableBody">
+                    <% if (quizzes && quizzes.length > 0) { %>
+                        <% quizzes.forEach(quiz => { %>
+                            <tr data-category="<%= quiz.category %>" data-title="<%= quiz.title %>">
+                                <td class="quiz-title-cell"><%= quiz.title %></td>
+                                <td><span class="category-badge <%= quiz.category %>"><%= quiz.category %></span></td>
+                                <td><%= quiz.questions.length %></td>
+                                <td><%= quiz.creator ? quiz.creator.name : 'Deleted User' %></td>
+                                <td><%= new Date(quiz.createdAt).toLocaleDateString() %></td>
+                                <td><span class="visibility-badge <%= quiz.isPublic ? 'public' : 'private' %>">
+                                    <%= quiz.isPublic ? 'Public' : 'Private' %>
+                                </span></td>
+                                <td class="actions-cell">
+                                    <a href="/quiz/<%= quiz._id %>" class="icon-btn view-btn" title="View Quiz">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/quiz/edit/<%= quiz._id %>" class="icon-btn edit-btn" title="Edit Quiz">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="icon-btn delete-btn" title="Delete Quiz" 
+                                            onclick="confirmDelete('<%= quiz._id %>', '<%= quiz.title %>')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="7" class="no-data">No quizzes found</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <% if (quizzes && quizzes.length > 0) { %>
+                <button class="pagination-btn" id="prevPage" disabled>&laquo; Previous</button>
+                <span class="pagination-info">Page <span id="currentPage">1</span> of <span id="totalPages"><%= Math.ceil(quizzes.length / 10) %></span></span>
+                <button class="pagination-btn" id="nextPage">Next &raquo;</button>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Deletion</h2>
+            <p id="delete-message">Are you sure you want to delete this quiz?</p>
+            <div class="modal-actions">
+                <button id="cancel-delete" class="btn cancel-btn">Cancel</button>
+                <a id="confirm-delete" href="#" class="btn delete-btn">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pagination and search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search functionality
+            const searchInput = document.getElementById('quizSearch');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const rows = document.querySelectorAll('#quizzesTableBody tr');
+            const itemsPerPage = 10;
+            let currentPage = 1;
+            
+            function filterRows() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const category = categoryFilter.value;
+                let visibleCount = 0;
+                
+                rows.forEach(row => {
+                    const title = row.querySelector('.quiz-title-cell').textContent.toLowerCase();
+                    const rowCategory = row.getAttribute('data-category');
+                    const shouldShow = (category === 'all' || rowCategory === category) && 
+                                       title.includes(searchTerm);
+                    
+                    row.classList.toggle('hidden', !shouldShow);
+                    if (shouldShow) visibleCount++;
+                });
+                
+                // Reset pagination after filtering
+                currentPage = 1;
+                updatePagination();
+                applyPagination();
+            }
+            
+            function updatePagination() {
+                const visibleRows = Array.from(rows).filter(row => !row.classList.contains('hidden'));
+                const totalPages = Math.ceil(visibleRows.length / itemsPerPage);
+                
+                document.getElementById('currentPage').textContent = currentPage;
+                document.getElementById('totalPages').textContent = totalPages || 1;
+                
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = currentPage >= totalPages || totalPages === 0;
+            }
+            
+            function applyPagination() {
+                const visibleRows = Array.from(rows).filter(row => !row.classList.contains('hidden'));
+                
+                visibleRows.forEach((row, index) => {
+                    const startIdx = (currentPage - 1) * itemsPerPage;
+                    const endIdx = startIdx + itemsPerPage;
+                    
+                    row.classList.toggle('hidden-page', index < startIdx || index >= endIdx);
+                });
+            }
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', filterRows);
+            }
+            
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', filterRows);
+            }
+            
+            // Pagination controls
+            document.getElementById('prevPage').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                    applyPagination();
+                }
+            });
+            
+            document.getElementById('nextPage').addEventListener('click', function() {
+                const visibleRows = Array.from(rows).filter(row => !row.classList.contains('hidden'));
+                const totalPages = Math.ceil(visibleRows.length / itemsPerPage);
+                
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                    applyPagination();
+                }
+            });
+            
+            // Initial pagination
+            updatePagination();
+            applyPagination();
+            
+            // Delete modal functionality
+            window.confirmDelete = function(quizId, quizTitle) {
+                const modal = document.getElementById('delete-modal');
+                const message = document.getElementById('delete-message');
+                const confirmBtn = document.getElementById('confirm-delete');
+                
+                message.textContent = `Are you sure you want to delete the quiz "${quizTitle}"? This action cannot be undone.`;
+                confirmBtn.href = `/quiz/delete/${quizId}`;
+                
+                modal.style.display = 'flex';
+            };
+            
+            document.getElementById('cancel-delete').addEventListener('click', function() {
+                document.getElementById('delete-modal').style.display = 'none';
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('delete-modal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

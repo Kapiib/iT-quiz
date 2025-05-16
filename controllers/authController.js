@@ -123,7 +123,15 @@ const authController = {
             }
             
             // After successful verification
-            await logActivity('user', 'User Login', `User logged in: ${user.email}`, user._id, req.ip);
+            // Log different activity based on user role
+            if (user.role === 'admin') {
+                await logActivity('admin', 'Admin Login', `Administrator logged in: ${user.email}`, user._id, req.ip);
+            } else if (user.role === 'moderator') {
+                await logActivity('admin', 'Moderator Login', `Moderator logged in: ${user.email}`, user._id, req.ip);
+            } else {
+                await logActivity('user', 'User Login', `User logged in: ${user.email}`, user._id, req.ip);
+            }
+            
             const redirectUrl = await handleSuccessfulAuth(user, res);
             return res.redirect(redirectUrl);
             

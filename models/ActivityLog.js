@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const activityLogSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['user', 'quiz', 'system', 'error'],
+        enum: ['user', 'quiz', 'system', 'error', 'admin'],  // Added 'admin' to valid types
         required: true
     },
     action: {

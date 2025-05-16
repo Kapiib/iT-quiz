@@ -2145,11 +2145,6 @@ p, span, div,
     gap: 1rem;
 }
 
-.modal-actions .btn {
-    padding: 0.75rem 1.5rem;
-    transition: all 0.3s ease;
-}
-
 /* Updated cancel button with theme colors */
 .modal-actions #cancel-delete {
     background-color: var(--color-primary);
@@ -2699,7 +2694,7 @@ input[type="file"] {
   font-size: 1.4rem;
   margin-bottom: 1.5rem;
   line-height: 1.4;
-  color: var(--color-quiz-header);
+  color: var (--color-quiz-header);
 }
 
 .options-list {
@@ -3765,22 +3760,49 @@ body.quiz-complete .quiz-header-mini,
 }
 
 .icon-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-text);
-  transition: all 0.3s ease;
+  color: white;
+  transition: all 0.2s ease;
 }
 
-.icon-btn.view-btn:hover { color: #3498db; }
-.icon-btn.edit-btn:hover { color: #f39c12; }
-.icon-btn.delete-btn:hover { color: #e74c3c; }
+.icon-btn.view-btn {
+  background-color: var(--color-primary);
+}
+
+.icon-btn.edit-btn {
+  background-color: var(--color-edit);
+}
+
+.icon-btn.delete-btn {
+  background-color: var(--color-delete);
+  border: none;
+  cursor: pointer;
+}
+
+/* Improved hover styles with consistent white text */
+.icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  color: white !important; /* Force white text on hover */
+}
+
+/* Individual button hover background effects */
+.icon-btn.view-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.icon-btn.edit-btn:hover {
+  background-color: var(--color-edit-hover);
+}
+
+.icon-btn.delete-btn:hover {
+  background-color: var(--color-delete-hover);
+}
 
 .status-badge, .visibility-badge, .category-badge {
   display: inline-block;
@@ -4111,4 +4133,699 @@ textarea.admin-input {
 .notification.hiding {
   transform: translateX(100%);
   opacity: 0;
+}
+
+/* Admin Quiz Management Styles */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.search-container {
+  position: relative;
+  flex-grow: 1;
+}
+
+.admin-search {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-quiz-meta);
+}
+
+.admin-filter {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+  min-width: 180px;
+}
+
+.admin-table-container {
+  background-color: var(--color-container-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th, 
+.admin-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table th {
+  background-color: rgba(155, 89, 182, 0.1);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover {
+  background-color: rgba(155, 89, 182, 0.05);
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  text-align: center;
+  min-width: 80px;
+}
+
+.category-badge.programming { background-color: rgba(52, 152, 219, 0.2); color: #3498db; }
+.category-badge.databases { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.category-badge.networking { background-color: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+.category-badge.security { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+.category-badge.webdev { background-color: rgba(243, 156, 18, 0.2); color: #f39c12; }
+.category-badge.os { background-color: rgba(52, 73, 94, 0.2); color: #34495e; }
+.category-badge.general { background-color: rgba(127, 140, 141, 0.2); color: #7f8c8d; }
+
+.visibility-badge {
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.visibility-badge.public { background-color: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.visibility-badge.private { background-color: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.icon-btn.view-btn {
+  background-color: var(--color-primary);
+}
+
+.icon-btn.edit-btn {
+  background-color: var(--color-edit);
+}
+
+.icon-btn.delete-btn {
+  background-color: var(--color-delete);
+  border: none;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--color-quiz-meta);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.pagination-info {
+  color: var(--color-quiz-meta);
+}
+
+.pagination-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: var(--color-container-bg);
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: var(--color-quiz-header);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+/* Helper classes */
+.hidden {
+  display: none !important;
+}
+
+.hidden-page {
+  display: none !important;
+}
+
+/* Admin search input focus styling */
+.admin-search:focus,
+.admin-filter:focus,
+.search-container input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Admin filter select focus styling */
+.admin-filter:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Additional styling for quiz management inputs */
+.admin-controls-bar .admin-search:focus,
+.admin-controls-bar .admin-filter:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Active state styling */
+.admin-search:active,
+.admin-filter:active {
+  border-color: var(--color-primary-hover);
+}
+
+/* Ensure consistent transition for smooth effect */
+.admin-search,
+.admin-filter,
+.search-container input {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Input focus styling for all search inputs */
+.admin-search:focus,
+.admin-filter:focus,
+.search-container input:focus,
+.quiz-search input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Active state styling */
+.admin-search:active,
+.admin-filter:active,
+.quiz-search input:active {
+  border-color: var(--color-primary-hover);
+}
+
+/* Ensure consistent transition for smooth effect */
+.admin-search,
+.admin-filter,
+.search-container input,
+.quiz-search input {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Input styling for admin controls with explicit font settings */
+.admin-search,
+.admin-filter,
+.search-container input,
+.quiz-search input,
+select.admin-filter,
+.styled-select {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-text);
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-container-bg);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Specific padding for search with icon */
+.admin-search,
+.search-container input {
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+}
+
+/* Other inputs without left icon */
+.admin-filter,
+.quiz-search input,
+.styled-select {
+  padding: 0.75rem 1rem;
+}
+
+/* Search icon positioning - fixed to prevent overlapping */
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-quiz-meta);
+  pointer-events: none; /* Ensures the icon doesn't interfere with input */
+  font-size: 0.9rem; /* Slightly smaller icon */
+}
+
+/* Select dropdown arrow positioning */
+.styled-select,
+select.admin-filter {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%239b59b6' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1rem auto;
+  padding-right: 2.2rem; /* Ensure text doesn't overlap with arrow */
+}
+
+/* Input focus styling */
+.admin-search:focus,
+.admin-filter:focus,
+.search-container input:focus,
+.quiz-search input:focus,
+.styled-select:focus,
+select.admin-filter:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+/* Placeholder text styling */
+.admin-search::placeholder,
+.admin-filter::placeholder,
+.search-container input::placeholder,
+.quiz-search input::placeholder {
+  color: var(--color-quiz-meta);
+  opacity: 0.7;
+  font-size: 1rem;
+}
+
+/* Enhanced dropdown styling for better option separation */
+.styled-select,
+select.admin-filter {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%239b59b6' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 1rem auto;
+  padding-right: 2.2rem; /* Ensure text doesn't overlap with arrow */
+}
+
+/* Improved option styling with more spacing and separation */
+.admin-filter option,
+.styled-select option {
+  padding: 12px 16px;
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  margin: 4px 0;
+}
+
+/* Add hover effect to options (works in some browsers) */
+.admin-filter option:hover,
+.styled-select option:hover {
+  background-color: rgba(155, 89, 182, 0.1);
+  cursor: pointer;
+}
+
+/* Styling for selected option */
+.admin-filter option:checked,
+.styled-select option:checked {
+  background-color: rgba(155, 89, 182, 0.2);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* First option can have a special style */
+.admin-filter option:first-child,
+.styled-select option:first-child {
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 14px;
+}
+
+/* Ensure dropdown has a consistent width and max-height with scrolling */
+.admin-filter,
+.styled-select {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-container-bg);
+}
+
+/* Custom scrollbar styling for Webkit browsers */
+.admin-filter::-webkit-scrollbar,
+.styled-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.admin-filter::-webkit-scrollbar-track,
+.styled-select::-webkit-scrollbar-track {
+  background: var(--color-container-bg);
+}
+
+.admin-filter::-webkit-scrollbar-thumb,
+.styled-select::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 4px;
+}
+
+/* Modal styling for delete confirmation with fixed styling */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: var(--color-container-bg);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  border: 1px solid var(--color-border);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.75rem;
+}
+
+.modal-content p {
+  margin-bottom: 1.5rem;
+  color: var(--color-quiz-description);
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* Reset any global btn styles that might interfere */
+.modal-actions button,
+.modal-actions a {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+}
+
+/* Cancel button - purple theme color */
+#cancel-delete,
+.cancel-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+}
+
+#cancel-delete:hover,
+.cancel-btn:hover {
+  background-color: var(--color-primary-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Delete/confirm button - red danger color */
+.modal-actions .delete-btn,
+#confirm-delete {
+  background-color: var(--color-delete) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+}
+
+.modal-actions .delete-btn:hover,
+#confirm-delete:hover {
+  background-color: var(--color-delete-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Remove redundant button styles to prevent conflicts */
+.modal-actions .btn {
+  padding: 0 !important; /* Override any conflicting padding */
+  background: none !important; /* Remove any background styling */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Modal action buttons with consistent width and sizing */
+#cancel-delete,
+.cancel-btn,
+.modal-actions .delete-btn,
+#confirm-delete {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+  min-width: 120px !important; /* Ensure consistent minimum width */
+  text-align: center !important; /* Center text in buttons */
+  box-sizing: border-box !important; /* Include padding in width calculation */
+}
+
+/* Delete button specific color */
+.modal-actions .delete-btn,
+#confirm-delete {
+  background-color: var(--color-delete) !important;
+}
+
+/* Hover states */
+#cancel-delete:hover,
+.cancel-btn:hover {
+  background-color: var(--color-primary-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.modal-actions .delete-btn:hover,
+#confirm-delete:hover {
+  background-color: var(--color-delete-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Reset any global button styles that might interfere */
+.modal-actions button,
+.modal-actions a {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+}
+
+/* Modal action buttons with consistent styling and dimensions */
+.modal-content #cancel-delete,
+.modal-content .cancel-btn,
+.modal-content button.cancel-btn,
+.modal-actions #cancel-delete,
+.modal-actions .cancel-btn {
+  background-color: var(--color-primary) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+  min-width: 120px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  height: auto !important;
+  line-height: normal !important;
+  font-size: 1rem !important;
+}
+
+/* Delete button specific styling */
+.modal-content #confirm-delete,
+.modal-content .delete-btn,
+.modal-content button.delete-btn,
+.modal-actions #confirm-delete,
+.modal-actions .delete-btn {
+  background-color: var(--color-delete) !important;
+  color: white !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-block !important;
+  min-width: 120px !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  height: auto !important;
+  line-height: normal !important;
+  font-size: 1rem !important;
+}
+
+/* Maintain consistent hover effects */
+.modal-content #cancel-delete:hover,
+.modal-content .cancel-btn:hover,
+.modal-actions #cancel-delete:hover,
+.modal-actions .cancel-btn:hover {
+  background-color: var(--color-primary-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.modal-content #confirm-delete:hover,
+.modal-content .delete-btn:hover,
+.modal-actions #confirm-delete:hover,
+.modal-actions .delete-btn:hover {
+  background-color: var(--color-delete-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Reset any conflicting btn class styles to prevent conflicts */
+.modal-actions .btn.cancel-btn,
+.modal-actions .btn.delete-btn {
+  padding: 0.75rem 1.5rem !important;
+  min-width: 120px !important;
+  background-color: inherit !important;
+}
+
+/* Add special styling for admin activities in the log */
+.activity-type.admin { 
+  background-color: rgba(142, 68, 173, 0.2); /* Darker purple background */
+  color: #8e44ad; /* Darker purple text */
+  font-weight: 700; /* Make it bolder */
+}
+
+/* Give admin activities a subtle glow effect */
+.activity-item:has(.activity-type.admin) {
+  border-left: 3px solid #8e44ad;
+  padding-left: 0.75rem;
+}
+
+/* Add special styling for admin activities in the log */
+.activity-type.admin { 
+  background-color: rgba(142, 68, 173, 0.2); /* Darker purple background */
+  color: #8e44ad; /* Darker purple text */
+  font-weight: 700; /* Make it bolder */
+}
+
+/* Give admin activities a subtle glow effect */
+.activity-item:has(.activity-type.admin) {
+  border-left: 3px solid #8e44ad;
+  padding-left: 0.75rem;
 }
