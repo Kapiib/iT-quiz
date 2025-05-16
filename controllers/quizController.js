@@ -1,5 +1,6 @@
 const Quiz = require('../models/Quiz');
 const User = require('../models/User');
+const { logActivity } = require('../utils/activityLogger');
 
 const quizController = {
     // Get all public quizzes for the homepage
@@ -89,6 +90,7 @@ const quizController = {
             });
             
             await newQuiz.save();
+            await logActivity('quiz', 'Quiz Created', `New quiz created: ${title}`, req.user.id, req.ip);
             res.redirect('/profile');
         } catch (error) {
             console.error('Error creating quiz:', error);

@@ -2,6 +2,7 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 const { createToken } = require('../utils/jwtUtils');
+const { logActivity } = require('../utils/activityLogger');
 
 const authController = {
     register: async (req, res) => {
@@ -50,6 +51,7 @@ const authController = {
             });
             
             await newUser.save();
+            await logActivity('user', 'User Registration', `New user registered: ${email}`, newUser._id, req.ip);
             console.log(`User registered successfully: ${name} (${email})`);
             
             res.redirect('/auth/login');
@@ -121,6 +123,7 @@ const authController = {
             }
             
             // After successful verification
+            await logActivity('user', 'User Login', `User logged in: ${user.email}`, user._id, req.ip);
             const redirectUrl = await handleSuccessfulAuth(user, res);
             return res.redirect(redirectUrl);
             

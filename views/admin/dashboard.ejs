@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="title">Admin Dashboard</h1>
+        </div>
+
+        <!-- Overview Section -->
+        <div class="admin-overview">
+            <h2>Site Overview</h2>
+            <div class="admin-cards">
+                <div class="admin-card">
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                    <div class="card-content">
+                        <h3>Total Users</h3>
+                        <p class="card-value" id="total-users"><%= stats?.totalUsers || 0 %></p>
+                        <p class="card-trend"><span class="positive">+<%= stats?.newUsers || 0 %></span> this week</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="card-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="card-content">
+                        <h3>Total Quizzes</h3>
+                        <p class="card-value" id="total-quizzes"><%= stats?.totalQuizzes || 0 %></p>
+                        <p class="card-trend"><span class="positive">+<%= stats?.newQuizzes || 0 %></span> this week</p>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="card-content">
+                        <h3>Quiz Categories</h3>
+                        <p class="card-value"><%= stats?.categoryStats?.length || 0 %></p>
+                        <p class="card-trend">Most popular: <span class="highlight"><%= stats?.topCategory || 'None' %></span></p>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="card-content">
+                        <h3>Admin Users</h3>
+                        <p class="card-value"><%= stats?.adminUsers || 0 %></p>
+                        <p class="card-trend"><%= stats?.moderatorUsers || 0 %> moderators</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Actions -->
+        <div class="admin-section">
+            <h2>Content Management</h2>
+            <div class="admin-actions-grid">
+                <a href="/admin/quizzes" class="admin-action-card">
+                    <div class="action-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <h3>Manage Quizzes</h3>
+                    <p>Review, edit or remove quizzes</p>
+                </a>
+                
+                <a href="/admin/users" class="admin-action-card">
+                    <div class="action-icon"><i class="fas fa-user-cog"></i></div>
+                    <h3>User Accounts</h3>
+                    <p>View and manage user accounts</p>
+                </a>
+                
+                <a href="/admin/reports" class="admin-action-card">
+                    <div class="action-icon"><i class="fas fa-chart-bar"></i></div>
+                    <h3>Analytics</h3>
+                    <p>View site statistics and reports</p>
+                </a>
+                
+                <a href="/admin/settings" class="admin-action-card">
+                    <div class="action-icon"><i class="fas fa-cogs"></i></div>
+                    <h3>Site Settings</h3>
+                    <p>Configure platform settings</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- System Events -->
+        <div class="admin-section">
+            <h2>Recent Activity</h2>
+            <div class="activity-log-container">
+                <% if (activities && activities.length > 0) { %>
+                    <div class="activity-log">
+                        <% activities.forEach(activity => { %>
+                            <div class="activity-item">
+                                <div class="activity-time"><%= new Date(activity.timestamp).toLocaleString() %></div>
+                                <div class="activity-type <%= activity.type %>"><%= activity.action %></div>
+                                <div class="activity-details"><%= activity.details %></div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <div class="no-activities">
+                        <p>No recent activities to display.</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Make sure Font Awesome is included -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="/js/adminDashboard.js"></script>
+</body>
+</html>

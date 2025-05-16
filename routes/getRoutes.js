@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { checkAuth, redirectIfAuthenticated } = require('../middleware/checkAuth');
+const { checkAuth, redirectIfAuthenticated, isAdmin } = require('../middleware/checkAuth');
 const authController = require("../controllers/authController");
 const quizController = require('../controllers/quizController');
+const adminController = require('../controllers/adminController');
 
 // Home route
 router.get('/', quizController.getHomepageQuizzes);
@@ -46,6 +47,14 @@ router.get('/settings', checkAuth, (req, res) => {
         user: req.user
     });
 });
+
+// Admin Dashboard routes (add these before your Auth page routes)
+router.get('/admin', checkAuth, isAdmin, adminController.getDashboard);
+router.get('/admin/dashboard', checkAuth, isAdmin, adminController.getDashboard);
+router.get('/admin/users', checkAuth, isAdmin, adminController.getUsers);
+router.get('/admin/quizzes', checkAuth, isAdmin, adminController.getQuizzes);
+router.get('/admin/reports', checkAuth, isAdmin, adminController.getReports);
+router.get('/admin/settings', checkAuth, isAdmin, adminController.getSettings);
 
 // Auth page routes 
 router.get("/auth/register", redirectIfAuthenticated, (req, res) => {
