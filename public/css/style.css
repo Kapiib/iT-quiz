@@ -4718,84 +4718,6 @@ select.admin-filter {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Reset any global button styles that might interfere */
-.modal-actions button,
-.modal-actions a {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: none !important;
-  border: none !important;
-  text-decoration: none !important;
-  display: inline-block !important;
-}
-
-/* Modal action buttons with consistent styling and dimensions */
-.modal-content #cancel-delete,
-.modal-content .cancel-btn,
-.modal-content button.cancel-btn,
-.modal-actions #cancel-delete,
-.modal-actions .cancel-btn {
-  background-color: var(--color-primary) !important;
-  color: white !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 6px !important;
-  font-weight: 600 !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  display: inline-block !important;
-  min-width: 120px !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-  margin: 0 !important;
-  height: auto !important;
-  line-height: normal !important;
-  font-size: 1rem !important;
-}
-
-/* Delete button specific styling */
-.modal-content #confirm-delete,
-.modal-content .delete-btn,
-.modal-content button.delete-btn,
-.modal-actions #confirm-delete,
-.modal-actions .delete-btn {
-  background-color: var(--color-delete) !important;
-  color: white !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 6px !important;
-  font-weight: 600 !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease !important;
-  display: inline-block !important;
-  min-width: 120px !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-  margin: 0 !important;
-  height: auto !important;
-  line-height: normal !important;
-  font-size: 1rem !important;
-}
-
-/* Maintain consistent hover effects */
-.modal-content #cancel-delete:hover,
-.modal-content .cancel-btn:hover,
-.modal-actions #cancel-delete:hover,
-.modal-actions .cancel-btn:hover {
-  background-color: var(--color-primary-hover) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
-}
-
-.modal-content #confirm-delete:hover,
-.modal-content .delete-btn:hover,
-.modal-actions #confirm-delete:hover,
-.modal-actions .delete-btn:hover {
-  background-color: var(--color-delete-hover) !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important;
-}
-
 /* Reset any conflicting btn class styles to prevent conflicts */
 .modal-actions .btn.cancel-btn,
 .modal-actions .btn.delete-btn {
@@ -4806,26 +4728,310 @@ select.admin-filter {
 
 /* Add special styling for admin activities in the log */
 .activity-type.admin { 
-  background-color: rgba(142, 68, 173, 0.2); /* Darker purple background */
-  color: #8e44ad; /* Darker purple text */
-  font-weight: 700; /* Make it bolder */
+  background-color: rgba(231, 76, 60, 0.2); /* Red background instead of purple */
+  color: #e74c3c; /* Red text - matches admin badge */
+  font-weight: 700;
 }
 
-/* Give admin activities a subtle glow effect */
+/* Update glow effect for admin activities to red */
 .activity-item:has(.activity-type.admin) {
-  border-left: 3px solid #8e44ad;
+  border-left: 3px solid #e74c3c;
   padding-left: 0.75rem;
 }
 
-/* Add special styling for admin activities in the log */
-.activity-type.admin { 
-  background-color: rgba(142, 68, 173, 0.2); /* Darker purple background */
-  color: #8e44ad; /* Darker purple text */
-  font-weight: 700; /* Make it bolder */
+/* Keep quiz creation as purple */
+.activity-type.quiz {
+  background-color: rgba(155, 89, 182, 0.2);
+  color: #9b59b6;
 }
 
-/* Give admin activities a subtle glow effect */
-.activity-item:has(.activity-type.admin) {
-  border-left: 3px solid #8e44ad;
-  padding-left: 0.75rem;
+/* Activity log container with search and custom scrollbar */
+.activity-log-container {
+  background-color: var(--color-container-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 }
+
+/* Activity log search bar */
+.activity-search-container {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.activity-search {
+  flex-grow: 1;
+  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-size: 0.95rem;
+}
+
+.activity-search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+.activity-search-icon {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-quiz-meta);
+  pointer-events: none;
+  font-size: 0.9rem;
+}
+
+/* Clear search button */
+.clear-search {
+  background-color: transparent;
+  border: none;
+  color: var(--color-quiz-meta);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.clear-search:hover {
+  color: var(--color-primary);
+  background-color: rgba(155, 89, 182, 0.1);
+}
+
+/* Activity log with max height and custom scrollbar */
+.activity-log {
+  max-height: 350px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) rgba(155, 89, 182, 0.1);
+}
+
+/* Custom scrollbar for Webkit browsers */
+.activity-log::-webkit-scrollbar {
+  width: 8px;
+}
+
+.activity-log::-webkit-scrollbar-track {
+  background: rgba(155, 89, 182, 0.1);
+  border-radius: 4px;
+}
+
+.activity-log::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 4px;
+}
+
+.activity-log::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Activity item with delete button */
+.activity-item {
+  display: grid;
+  grid-template-columns: 180px auto 1fr auto;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  gap: 1rem;
+  transition: background-color 0.2s ease;
+  align-items: center;
+}
+
+/* Delete button for activity items */
+.activity-delete-btn {
+  background-color: transparent;
+  color: var (--color-quiz-meta);
+  border: 1px solid var (--color-border);
+  padding: 0.3rem 0.6rem; /* Horizontal padding for rectangle shape */
+  border-radius: 4px; /* Square corners instead of circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+.activity-delete-btn:hover {
+  background-color: var(--color-delete);
+  color: white;
+  border-color: var(--color-delete);
+}
+
+/* Add trash icon and text for delete button */
+.activity-delete-btn i {
+  margin-right: 4px; /* Space between icon and text */
+}
+
+/* Add delete text on hover */
+.activity-delete-btn::after {
+  content: none; /* Remove the "Delete" text */
+}
+
+/* Keep the icon properly aligned without text */
+.activity-delete-btn i {
+  margin-right: 0; /* Remove right margin since there's no text anymore */
+}
+
+/* No results found message */
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-quiz-meta);
+  font-style: italic;
+}
+
+/* Date filter styling - increased width for date inputs */
+.date-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.date-input {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: var(--color-container-bg);
+  color: var(--color-text);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  width: 145px; /* Slightly wider to fully show dates */
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(155, 89, 182, 0.2);
+}
+
+.date-separator {
+  color: var(--color-quiz-meta);
+  font-size: 0.9rem;
+}
+
+/* Calendar popup color overrides for better visibility */
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.7) sepia(0.4) saturate(2) hue-rotate(230deg) brightness(1.2);
+  cursor: pointer;
+  padding: 5px;
+  opacity: 0.8;
+}
+
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* More visible clear search button - with reduced hover animation */
+.clear-search {
+  background-color: rgba(155, 89, 182, 0.15);
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-search:hover {
+  color: white;
+  background-color: var(--color-primary-hover); /* Darker purple on hover */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+}
+
+/* Rectangular style for activity delete button */
+.activity-delete-btn {
+  background-color: transparent;
+  color: var (--color-quiz-meta);
+  border: 1px solid var(--color-border);
+  padding: 0.3rem 0.6rem; /* Horizontal padding for rectangle shape */
+  border-radius: 4px; /* Square corners instead of circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+  font-size: 0.85rem;
+}
+
+.activity-delete-btn:hover {
+  background-color: var(--color-delete);
+  color: white;
+  border-color: var(--color-delete);
+}
+
+/* Add trash icon and text for delete button */
+.activity-delete-btn i {
+  margin-right: 4px; /* Space between icon and text */
+}
+
+/* Add delete text on hover */
+.activity-delete-btn::after {
+  content: none; /* Remove the "Delete" text */
+}
+
+/* Keep the icon properly aligned without text */
+.activity-delete-btn i {
+  margin-right: 0; /* Remove right margin since there's no text anymore */
+}
+
+/* Google login activity indicators */
+.activity-type.user.google {
+  background-color: rgba(52, 152, 219, 0.2); /* Same blue base as regular user */
+  color: #3498db;
+  border-left: 3px solid #4285F4; /* Google blue accent */
+  padding-left: 6px;
+  position: relative;
+}
+
+.activity-type.admin.google {
+  background-color: rgba(231, 76, 60, 0.2); /* Same red base as admin */
+  color: #e74c3c;
+  border-left: 3px solid #4285F4; /* Google blue accent */
+  padding-left: 6px;
+  position: relative;
+}
+
+/* Optional: Add a small Google icon to the badges */
+.activity-type.google::before {
+  content: "G";
+  font-size: 10px;
+  background-color: white;
+  color: #4285F4;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.activity-type::before {
+  font-family: 'Font Awesome 5 Free';
+  margin-right: 8px;
+}
+.activity-type.user::before { content: "\f007"; /* user icon */ }
+.activity-type.admin::before { content: "\f21b"; /* admin icon */ }
+.activity-type.quiz::before { content: "\f059"; /* question icon */ }
+.activity-type.system::before { content: "\f085"; /* cog icon */ }

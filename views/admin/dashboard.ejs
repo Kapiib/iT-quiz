@@ -82,16 +82,63 @@
         <div class="admin-section">
             <h2>Recent Activity</h2>
             <div class="activity-log-container">
+                <div class="activity-search-container">
+                    <i class="fas fa-search activity-search-icon"></i>
+                    <input type="text" id="activitySearch" class="activity-search" placeholder="Search activities...">
+                    
+                    <div class="date-filter-container">
+                        <input type="date" id="startDate" class="date-input" title="Start Date">
+                        <span class="date-separator">to</span>
+                        <input type="date" id="endDate" class="date-input" title="End Date">
+                    </div>
+                    
+                    <button id="applyDateFilter" class="filter-btn" title="Apply date filter">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    
+                    <button id="clearActivitySearch" class="clear-search" title="Clear all filters">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
                 <% if (activities && activities.length > 0) { %>
-                    <div class="activity-log">
+                    <div class="activity-log" id="activityLog">
                         <% activities.forEach(activity => { %>
-                            <div class="activity-item">
+                            <div class="activity-item" 
+                                 data-details="<%= activity.details.toLowerCase() %>" 
+                                 data-type="<%= activity.type %>" 
+                                 data-action="<%= activity.action.toLowerCase() %>"
+                                 data-date="<%= new Date(activity.timestamp).toISOString().split('T')[0] %>"
+                                 data-time="<%= new Date(activity.timestamp).toTimeString().split(' ')[0] %>">
+                                
                                 <div class="activity-time"><%= new Date(activity.timestamp).toLocaleString() %></div>
-                                <div class="activity-type <%= activity.type %>"><%= activity.action %></div>
+                                <div class="activity-type <%= activity.type %> <%= activity.action.includes('Google') ? 'google' : '' %>">
+                                    <%= activity.action %>
+                                    <% 
+                                    let subtype = '';
+                                    if (activity.action.includes('Login')) subtype = 'login';
+                                    else if (activity.action.includes('Registration')) subtype = 'registration';
+                                    else if (activity.action.includes('Create') || activity.action.includes('Creation')) subtype = 'creation';
+                                    else if (activity.action.includes('Delete') || activity.action.includes('Deletion')) subtype = 'deletion';
+                                    else if (activity.action.includes('Update') || activity.action.includes('Edit')) subtype = 'update';
+                                    
+                                    if (activity.action.includes('Google')) {
+                                        subtype = 'google';
+                                    }
+                                    
+                                    if (subtype) { 
+                                    %>
+                                        <span class="activity-subtype <%= subtype %>"><%= subtype %></span>
+                                    <% } %>
+                                </div>
                                 <div class="activity-details"><%= activity.details %></div>
+                                <button class="activity-delete-btn" data-id="<%= activity._id %>" title="Delete activity">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
                             </div>
                         <% }); %>
                     </div>
+                    <div id="noResults" class="no-results" style="display: none;">No activities match your search.</div>
                 <% } else { %>
                     <div class="no-activities">
                         <p>No recent activities to display.</p>

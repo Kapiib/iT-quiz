@@ -4,13 +4,13 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
-    secure: false, // Use TLS instead of SSL
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD
+        pass: process.env.EMAIL_PASSWORD // This should be your app password from Google
     },
     tls: {
-        rejectUnauthorized: false // Helps with some connectivity issues
+        rejectUnauthorized: false
     }
 });
 

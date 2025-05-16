@@ -5,6 +5,7 @@ const User = require('../models/User');
 const { createToken } = require('../utils/jwtUtils');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const { logActivity } = require('../utils/activityLogger'); // Add this import
 
 // Create OAuth client
 const client = new OAuth2Client(
@@ -43,7 +44,8 @@ router.get('/google/callback', async (req, res) => {
     
     // Find or create user
     let user = await User.findOne({ email: payload.email });
-    
+    let isNewUser = false;
+
     if (!user) {
       // Create new user if not exists
       user = new User({
@@ -54,6 +56,7 @@ router.get('/google/callback', async (req, res) => {
         authProviders: [{ provider: 'google', providerId: payload.sub }]
       });
       await user.save();
+      isNewUser = true;
     } else if (!user.authProviders || !user.authProviders.some(p => p.provider === 'google')) {
       // Add Google as auth provider if user exists but hasn't used Google before
       if (!user.authProviders) {
@@ -63,6 +66,19 @@ router.get('/google/callback', async (req, res) => {
       await user.save();
     }
     
+    // Log the activity - new or returning Google user
+    if (isNewUser) {
+      await logActivity('user', 'Google Registration', `New user registered via Google: ${payload.email}`, user._id, req.ip);
+    } else {
+      if (user.role === 'admin') {
+        await logActivity('admin', 'Admin Google Login', `Administrator logged in via Google: ${user.email}`, user._id, req.ip);
+      } else if (user.role === 'moderator') {
+        await logActivity('admin', 'Moderator Google Login', `Moderator logged in via Google: ${user.email}`, user._id, req.ip);
+      } else {
+        await logActivity('user', 'Google Login', `User logged in via Google: ${user.email}`, user._id, req.ip);
+      }
+    }
+
     // Create JWT - add profilePic to the payload
     const token = createToken({
       id: user._id,

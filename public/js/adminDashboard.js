@@ -425,4 +425,163 @@ document.addEventListener('DOMContentLoaded', function() {
             card.style.opacity = '1';
         }, 100 * index);
     });
+
+    // Activity log search and filter functionality
+    const activitySearch = document.getElementById('activitySearch');
+    const startDateInput = document.getElementById('startDate');
+    const endDateInput = document.getElementById('endDate');
+    const applyDateFilterBtn = document.getElementById('applyDateFilter');
+    const clearSearchBtn = document.getElementById('clearActivitySearch');
+    const activityItems = document.querySelectorAll('.activity-item');
+    const noResultsMsg = document.getElementById('noResults');
+    
+    if (activitySearch) {
+        // Text search
+        activitySearch.addEventListener('input', filterActivities);
+        
+        // Date filtering
+        if (applyDateFilterBtn) {
+            applyDateFilterBtn.addEventListener('click', filterActivities);
+        }
+        
+        // Clear all filters
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', function() {
+                activitySearch.value = '';
+                startDateInput.value = '';
+                endDateInput.value = '';
+                filterActivities();
+            });
+        }
+        
+        // Activity delete buttons
+        const deleteButtons = document.querySelectorAll('.activity-delete-btn');
+        deleteButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const activityId = this.getAttribute('data-id');
+                deleteActivity(activityId, this.closest('.activity-item'));
+            });
+        });
+    }
+    
+    // Filter activities based on search and date range
+    function filterActivities() {
+        const searchTerm = activitySearch.value.toLowerCase();
+        const startDate = startDateInput.value ? new Date(startDateInput.value) : null;
+        const endDate = endDateInput.value ? new Date(endDateInput.value) : null;
+        
+        // If end date is provided, set it to end of day
+        if (endDate) {
+            endDate.setHours(23, 59, 59, 999);
+        }
+        
+        let visibleCount = 0;
+        
+        activityItems.forEach(item => {
+            const details = item.getAttribute('data-details');
+            const type = item.getAttribute('data-type');
+            const action = item.getAttribute('data-action');
+            const itemDate = new Date(item.getAttribute('data-date'));
+            
+            // Check if the text content matches the search term
+            const textMatch = details.includes(searchTerm) || 
+                            type.includes(searchTerm) || 
+                            action.includes(searchTerm);
+            
+            // Check if the date is within the selected range
+            let dateMatch = true;
+            if (startDate && endDate) {
+                dateMatch = itemDate >= startDate && itemDate <= endDate;
+            } else if (startDate) {
+                dateMatch = itemDate >= startDate;
+            } else if (endDate) {
+                dateMatch = itemDate <= endDate;
+            }
+            
+            const shouldShow = textMatch && dateMatch;
+            item.style.display = shouldShow ? 'grid' : 'none';
+            
+            if (shouldShow) visibleCount++;
+        });
+        
+        // Show "no results" message if needed
+        if (noResultsMsg) {
+            noResultsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+    }
+    
+    // Delete activity function
+    function deleteActivity(id, element) {
+        if (confirm('Are you sure you want to delete this activity?')) {
+            fetch(`/api/admin/activity/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Remove the activity item with animation
+                    element.style.opacity = '0';
+                    element.style.height = element.offsetHeight + 'px';
+                    
+                    setTimeout(() => {
+                        element.style.height = '0';
+                        element.style.padding = '0';
+                        element.style.margin = '0';
+                        element.style.borderWidth = '0';
+                        
+                        setTimeout(() => {
+                            element.remove();
+                            
+                            // Check if there are any activities left
+                            const remainingActivities = document.querySelectorAll('.activity-item');
+                            if (remainingActivities.length === 0) {
+                                const activityLog = document.getElementById('activityLog');
+                                if (activityLog) {
+                                    activityLog.innerHTML = '<div class="no-activities"><p>No recent activities to display.</p></div>';
+                                }
+                            }
+                        }, 300);
+                    }, 300);
+                    
+                    // Show success notification
+                    showNotification('Activity deleted successfully');
+                } else {
+                    // Show error notification
+                    showNotification('Failed to delete activity', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error deleting activity', 'error');
+            });
+        }
+    }
+    
+    // Notification helper function (if not already defined elsewhere)
+    function showNotification(message, type = 'success') {
+        const container = document.querySelector('.notification-container') || createNotificationContainer();
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        container.appendChild(notification);
+        
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.add('hiding');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
+    }
+    
+    function createNotificationContainer() {
+        const container = document.createElement('div');
+        container.className = 'notification-container';
+        document.body.appendChild(container);
+        return container;
+    }
 });

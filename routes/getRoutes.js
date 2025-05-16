@@ -4,6 +4,7 @@ const { checkAuth, redirectIfAuthenticated, isAdmin } = require('../middleware/c
 const authController = require("../controllers/authController");
 const quizController = require('../controllers/quizController');
 const adminController = require('../controllers/adminController');
+const ActivityLog = require('../models/ActivityLog'); // Add this import
 
 // Home route
 router.get('/', quizController.getHomepageQuizzes);
@@ -55,6 +56,18 @@ router.get('/admin/users', checkAuth, isAdmin, adminController.getUsers);
 router.get('/admin/quizzes', checkAuth, isAdmin, adminController.getQuizzes);
 router.get('/admin/reports', checkAuth, isAdmin, adminController.getReports);
 router.get('/admin/settings', checkAuth, isAdmin, adminController.getSettings);
+
+// In your admin routes file
+router.delete('/api/admin/activity/:id', checkAuth, isAdmin, async (req, res) => {
+  try {
+    const id = req.params.id;
+    await ActivityLog.findByIdAndDelete(id);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error deleting activity:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 // Auth page routes 
 router.get("/auth/register", redirectIfAuthenticated, (req, res) => {

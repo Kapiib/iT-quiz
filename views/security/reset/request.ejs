@@ -14,6 +14,12 @@
                 </div>
             <% } %>
             
+            <% if (locals.success) { %>
+                <div class="success-message">
+                    <%= success %>
+                </div>
+            <% } %>
+            
             <form action="/security/reset/request" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>

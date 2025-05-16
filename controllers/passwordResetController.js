@@ -9,6 +9,7 @@ const passwordResetController = {
         res.render('security/reset/request', {
             title: 'Reset Password',
             error: null,
+            success: null,
             user: null
         });
     },
@@ -24,7 +25,8 @@ const passwordResetController = {
                 console.log(`Password reset failed: User not found - ${email}`);
                 return res.render('security/reset/request', {
                     title: 'Reset Password',
-                    error: 'If a user with that email exists, a reset link has been sent',
+                    error: null,
+                    success: 'If an account with that email exists, a password reset link has been sent.',
                     user: null
                 });
             }
@@ -44,9 +46,10 @@ const passwordResetController = {
             console.log(`Password reset requested for: ${email}`);
             
             // Don't reveal if user exists for security
-            return res.render('security/reset/confirmation', {
-                title: 'Reset Email Sent',
-                message: 'If an account with that email exists, a password reset link has been sent.',
+            return res.render('security/reset/request', {
+                title: 'Reset Password',
+                error: null,
+                success: 'If an account with that email exists, a password reset link has been sent.',
                 user: null
             });
             
@@ -54,7 +57,9 @@ const passwordResetController = {
             console.error(`Password reset request error: ${error.message}`, error);
             return res.status(500).render('security/reset/request', {
                 title: 'Reset Password',
-                error: 'Server error, please try again'
+                error: 'Server error, please try again',
+                success: null,
+                user: null
             });
         }
     },
