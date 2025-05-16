@@ -77,30 +77,6 @@
         </div>
     </div>
 
-    <script>
-        function showDeleteModal(button) {
-            const modal = document.getElementById('delete-modal');
-            const confirmBtn = document.getElementById('confirm-delete');
-            const quizId = button.getAttribute('data-quiz-id');
-            
-            // Set the correct delete URL
-            confirmBtn.href = '/quiz/delete/' + quizId;
-            
-            // Show modal
-            modal.style.display = 'flex';
-            
-            // Handle cancel
-            document.getElementById('cancel-delete').onclick = function() {
-                modal.style.display = 'none';
-            }
-            
-            // Close when clicking outside
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            }
-        }
-    </script>
+    <script src="/js/profile.js"></script>
 </body>
 </html>

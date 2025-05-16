@@ -87,8 +87,9 @@
                             <h3><%= quiz.title %></h3>
                             <p><%= quiz.description %></p>
                             <div class="quiz-meta">
-                                <span>Created by: <%= quiz.creator.name %></span>
+                                <span class="category-name"><%= quiz.category || 'general' %></span>
                                 <span>Questions: <%= quiz.questions.length %></span>
+                                <span>Created by: <%= quiz.creator.name %></span>
                             </div>
                             <a href="/quiz/<%= quiz._id %>" class="btn quiz-btn">Take Quiz</a>
                         </div>
@@ -106,5 +107,6 @@
     </div>
 
     <script src="/js/search.js"></script>
+    <script src="/js/quizCards.js"></script>
 </body>
 </html>

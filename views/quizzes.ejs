@@ -39,17 +39,6 @@
     </div>
     
     <script src="/js/search.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const quizCards = document.querySelectorAll('.quiz-card');
-            
-            quizCards.forEach(card => {
-                // Set a default category if none exists
-                const category = card.querySelector('.category-name')?.textContent || 'general';
-                card.setAttribute('data-category', category);
-            });
-        });
-    </script>
-    
+    <script src="/js/quizCards.js"></script>
 </body>
 </html>

@@ -68,11 +68,7 @@
     <!-- Store quiz data as a data attribute (no red highlighting) -->
     <div id="quiz-data" data-quiz="<%- encodeURIComponent(JSON.stringify(quiz || {})) %>" style="display: none;"></div>
 
-    <script>
-        // Extract quiz data from the data attribute
-        const quizDataElement = document.getElementById('quiz-data');
-        const quizData = JSON.parse(decodeURIComponent(quizDataElement.dataset.quiz));
-    </script>
+    <script src="/js/quizDataHandler.js"></script>
     <script src="/js/quizEditor.js"></script>
     <script src="/js/editQuiz.js"></script>
 </body>
