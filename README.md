@@ -52,9 +52,20 @@ A comprehensive quiz platform focused on IT topics, built with Node.js, Express,
   - Search functionality
   - User behavior tracking
 
-## Installation
+### Structure
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/IT-quiz.git
-   cd IT-quiz
+IT-quiz/
+├── controllers/     # Request handlers
+├── middleware/      # Authentication middleware
+├── models/          # MongoDB models
+├── public/          # Static assets
+│   ├── css/         # Stylesheets
+│   ├── js/          # Client-side JavaScript
+│   └── images/      # Images
+├── routes/          # Express routes
+├── utils/           # Utility functions
+├── views/           # EJS templates
+├── .env             # Environment variables
+├── app.js           # Express app
+└── package.json     # Dependencies
+
